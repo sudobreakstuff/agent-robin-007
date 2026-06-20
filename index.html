@@ -491,123 +491,92 @@ html, body {
 
 <script>
 // ──────────────────────────────────────────────────────
-// AUDIO — cinematic, warm, Bond-like
+// AUDIO — Bond theme MP3 + sound effects
 // ──────────────────────────────────────────────────────
 let audioCtx = null;
 let masterGain = null;
 let reverbNode = null;
 let audioReady = false;
-let gameDrone = null;
+let bgMusic = null;
+let bgMusicGain = null;
 
 function initAudio() {
   if (audioReady) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.4;
+  masterGain.gain.value = 0.35;
   masterGain.connect(audioCtx.destination);
 
   // Reverb
   const sr = audioCtx.sampleRate;
-  const len = sr * 2.5;
+  const len = sr * 2.2;
   const impulse = audioCtx.createBuffer(2, len, sr);
   for (let ch = 0; ch < 2; ch++) {
     const data = impulse.getChannelData(ch);
     for (let i = 0; i < len; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.5);
     }
   }
   reverbNode = audioCtx.createConvolver();
   reverbNode.buffer = impulse;
-
-  // Send to reverb via a bus
   const reverbSend = audioCtx.createGain();
-  reverbSend.gain.value = 0.4;
+  reverbSend.gain.value = 0.35;
   reverbSend.connect(reverbNode);
   reverbNode.connect(masterGain);
-
-  // Store as property for easy access
   audioCtx._reverbSend = reverbSend;
+
+  // Background music — the real Bond theme
+  try {
+    bgMusic = new Audio('bond-theme.mp3');
+    bgMusic.loop = true;
+    bgMusic.preload = 'auto';
+    const src = audioCtx.createMediaElementSource(bgMusic);
+    bgMusicGain = audioCtx.createGain();
+    bgMusicGain.gain.value = 0;
+    src.connect(bgMusicGain);
+    bgMusicGain.connect(audioCtx.destination);
+  } catch (e) {
+    console.warn('Could not load Bond theme:', e);
+  }
 
   audioReady = true;
 }
 
+function startMusic() {
+  if (!bgMusic || !bgMusicGain) return;
+  try {
+    bgMusic.play();
+    const now = audioCtx.currentTime;
+    bgMusicGain.gain.setValueAtTime(0, now);
+    bgMusicGain.gain.linearRampToValueAtTime(0.3, now + 2.5);
+  } catch (e) {}
+}
+
+function fadeOutMusic(dur) {
+  if (!bgMusicGain) return;
+  try {
+    const now = audioCtx.currentTime;
+    bgMusicGain.gain.cancelScheduledValues(now);
+    bgMusicGain.gain.setValueAtTime(bgMusicGain.gain.value, now);
+    bgMusicGain.gain.linearRampToValueAtTime(0, now + (dur || 1.5));
+    setTimeout(() => { try { bgMusic.pause(); } catch(e) {} }, (dur || 1.5) * 1000 + 100);
+  } catch (e) {}
+}
+
 function connectWithReverb(source) {
   const dry = audioCtx.createGain();
-  dry.gain.value = 0.6;
+  dry.gain.value = 0.5;
   source.connect(dry);
   dry.connect(masterGain);
-
   const wet = audioCtx.createGain();
-  wet.gain.value = 0.6;
+  wet.gain.value = 0.7;
   source.connect(wet);
   wet.connect(audioCtx._reverbSend);
-}
-
-function playBrass(freq, when, duration, volume) {
-  const o1 = audioCtx.createOscillator();
-  const o2 = audioCtx.createOscillator();
-  const o3 = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  const filter = audioCtx.createBiquadFilter();
-
-  o1.type = 'triangle'; o1.frequency.value = freq;
-  o2.type = 'triangle'; o2.frequency.value = freq * 1.003;
-  o3.type = 'triangle'; o3.frequency.value = freq * 0.997;
-
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(200, when);
-  filter.frequency.linearRampToValueAtTime(3000, when + 0.15);
-  filter.frequency.exponentialRampToValueAtTime(1200, when + duration * 0.7);
-
-  filter.Q.value = 1.5;
-
-  const mixGain = audioCtx.createGain();
-  mixGain.gain.value = 0.25;
-
-  o1.connect(mixGain);
-  o2.connect(mixGain);
-  o3.connect(mixGain);
-  mixGain.connect(filter);
-  filter.connect(gain);
-
-  gain.gain.setValueAtTime(0, when);
-  gain.gain.linearRampToValueAtTime(volume || 0.15, when + 0.03);
-  gain.gain.exponentialRampToValueAtTime(0.001, when + duration);
-
-  connectWithReverb(gain);
-
-  o1.start(when); o2.start(when); o3.start(when);
-  o1.stop(when + duration);
-  o2.stop(when + duration);
-  o3.stop(when + duration);
-}
-
-function playBondChord() {
-  if (!audioReady) return;
-  // The Bond chord: rich, dramatic, with punch
-  const now = audioCtx.currentTime;
-  const chord = [77.78, 98.0, 116.54, 138.59, 155.56, 185.0, 196.0];
-  chord.forEach(f => playBrass(f, now, 2.5, 0.1));
-
-  // Add a sub-bass punch
-  const sub = audioCtx.createOscillator();
-  const subGain = audioCtx.createGain();
-  sub.type = 'sine';
-  sub.frequency.value = 77.78;
-  subGain.gain.setValueAtTime(0, now);
-  subGain.gain.linearRampToValueAtTime(0.25, now + 0.03);
-  subGain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
-  sub.connect(subGain);
-  subGain.connect(masterGain);
-  sub.start(now);
-  sub.stop(now + 1.5);
 }
 
 function playHit() {
   if (!audioReady) return;
   const now = audioCtx.currentTime;
-
-  // Bright metallic ping
   [0, 0.03].forEach(d => {
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
@@ -615,62 +584,41 @@ function playHit() {
     o.frequency.setValueAtTime(1800 + d * 100, now + d);
     o.frequency.exponentialRampToValueAtTime(600, now + d + 0.1);
     g.gain.setValueAtTime(0, now + d);
-    g.gain.linearRampToValueAtTime(0.08, now + d + 0.005);
+    g.gain.linearRampToValueAtTime(0.07, now + d + 0.005);
     g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.12);
     connectWithReverb(g);
     o.connect(g);
     o.start(now + d);
     o.stop(now + d + 0.12);
   });
-
-  // Sub thump
   const sub = audioCtx.createOscillator();
   const subG = audioCtx.createGain();
   sub.type = 'sine';
   sub.frequency.value = 120;
   subG.gain.setValueAtTime(0, now);
-  subG.gain.linearRampToValueAtTime(0.12, now + 0.01);
-  subG.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+  subG.gain.linearRampToValueAtTime(0.1, now + 0.01);
+  subG.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
   sub.connect(subG);
   subG.connect(masterGain);
   sub.start(now);
-  sub.stop(now + 0.08);
+  sub.stop(now + 0.06);
 }
 
 function playMiss() {
   if (!audioReady) return;
   const now = audioCtx.currentTime;
-
-  // Low descending tone — not harsh
   const o = audioCtx.createOscillator();
   const g = audioCtx.createGain();
   o.type = 'triangle';
   o.frequency.setValueAtTime(300, now);
-  o.frequency.exponentialRampToValueAtTime(80, now + 0.25);
+  o.frequency.exponentialRampToValueAtTime(80, now + 0.2);
   g.gain.setValueAtTime(0, now);
-  g.gain.linearRampToValueAtTime(0.05, now + 0.02);
-  g.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+  g.gain.linearRampToValueAtTime(0.04, now + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
   connectWithReverb(g);
   o.connect(g);
   o.start(now);
-  o.stop(now + 0.3);
-}
-
-function playFanfare() {
-  if (!audioReady) return;
-  const now = audioCtx.currentTime;
-  const fanfareNotes = [
-    { f: 311.13, t: 0, vol: 0.08 },
-    { f: 392.0, t: 0.2, vol: 0.08 },
-    { f: 466.16, t: 0.4, vol: 0.08 },
-    { f: 622.25, t: 0.6, vol: 0.1 },
-    { f: 783.99, t: 0.8, vol: 0.1 },
-    { f: 932.33, t: 1.0, vol: 0.08 },
-    { f: 1244.51, t: 1.2, vol: 0.07 },
-  ];
-  fanfareNotes.forEach(({f, t, vol}) => {
-    playBrass(f, now + t, 1.0, vol);
-  });
+  o.stop(now + 0.25);
 }
 
 function playMartini() {
@@ -682,59 +630,13 @@ function playMartini() {
     o.type = 'sine';
     o.frequency.value = 1000 + i * 600;
     g.gain.setValueAtTime(0, now + d);
-    g.gain.linearRampToValueAtTime(0.04, now + d + 0.005);
-    g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.3);
+    g.gain.linearRampToValueAtTime(0.035, now + d + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.25);
     connectWithReverb(g);
     o.connect(g);
     o.start(now + d);
-    o.stop(now + d + 0.3);
+    o.stop(now + d + 0.25);
   });
-}
-
-function startGameDrone() {
-  if (!audioReady || gameDrone) return;
-  const now = audioCtx.currentTime;
-
-  // Low ominous pulse — creates tension
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  const lfo = audioCtx.createOscillator();
-  const lfoGain = audioCtx.createGain();
-
-  osc.type = 'sine';
-  osc.frequency.value = 55; // low A
-
-  lfo.type = 'sine';
-  lfo.frequency.value = 0.5; // slow pulse
-  lfoGain.gain.value = 15;
-
-  lfo.connect(lfoGain);
-  lfoGain.connect(osc.frequency);
-
-  const filter = audioCtx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.value = 200;
-  filter.Q.value = 2;
-
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.04, now + 1);
-  connectWithReverb(gain);
-
-  osc.start(now);
-  lfo.start(now);
-
-  gameDrone = { osc, lfo, gain };
-}
-
-function stopGameDrone() {
-  if (!gameDrone) return;
-  const now = audioCtx.currentTime;
-  gameDrone.gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-  gameDrone.osc.stop(now + 0.5);
-  gameDrone.lfo.stop(now + 0.5);
-  gameDrone = null;
 }
 
 // ──────────────────────────────────────────────────────
@@ -778,7 +680,7 @@ function startBarrel() {
   document.getElementById('stage-barrel').addEventListener('click', function onTap() {
     this.removeEventListener('click', onTap);
     initAudio();
-    playBondChord();
+    startMusic();
     titleEl.classList.add('show');
     setTimeout(() => {
       startBriefing();
@@ -816,8 +718,6 @@ function startGame() {
   document.getElementById('gameScore').textContent = '00';
   document.getElementById('gameHint').textContent = 'Get ready...';
   document.getElementById('gameProgressBar').style.width = '0%';
-
-  startGameDrone();
 
   setTimeout(() => {
     spawnTarget();
@@ -947,7 +847,7 @@ function updateScore() {
 }
 
 function endGame() {
-  stopGameDrone();
+  fadeOutMusic(0.8);
   document.getElementById('gameHint').textContent =
     S.misses === 0 ? 'PERFECT, 007!' : 'MISSION COMPLETE, AGENT ROBIN';
   document.getElementById('gameProgressBar').style.width = '100%';
@@ -961,7 +861,6 @@ function showCommendation() {
   showStage('stage-commendation');
   renderCard();
   if (S.misses === 0 && S.totalTargets > 0) {
-    playFanfare();
     setTimeout(() => showToast('DOUBLE 00 STATUS', 'Legendary'), 400);
   }
 }
@@ -1253,7 +1152,7 @@ window.replayGame = function() {
   if (S.targetEl && S.targetEl.parentNode) S.targetEl.parentNode.removeChild(S.targetEl);
   document.getElementById('gameArea').innerHTML = '';
   clearTimeout(S.timerId);
-  stopGameDrone();
+  fadeOutMusic(0.5);
   startGame();
 };
 
