@@ -384,6 +384,7 @@ function startBriefing() {
 // GAME
 // ──────────────────────────────────────────────────────
 function startGame() {
+  showStage('stage-game');
   S.score=0; S.hits=0; S.misses=0; S.totalHits=0; S.totalTargets=0;
   S.round=0; S.targetActive=false; S.roundRunning=false;
   document.getElementById('gameArea').innerHTML = '';
