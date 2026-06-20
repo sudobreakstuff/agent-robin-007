@@ -831,7 +831,17 @@ function renderCard() {
   ctx.fillText('THE WORLD\'S BEST FATHER',w/2,by + 10);
   ctx.shadowBlur = 0;
 
-  // —— FAMILY NOTE ——
+  // —— M'S HANDOFF ——
+  by += 50;
+  ctx.fillStyle='rgba(212,175,55,0.25)'; ctx.font=`${bodyS*0.8}px "Special Elite",monospace`;
+  ctx.fillText('— M', w/2, by);
+  by += bodyS*1.7;
+  ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.font=`${bodyS*0.75}px "Special Elite",monospace`;
+  ctx.fillText('And now, a personal message from the one who', w/2, by);
+  by += bodyS*1.6;
+  ctx.fillText('submitted your file for this commendation...', w/2, by);
+
+  // —— PERSONAL NOTE FROM SHAHID ——
   by += 55;
   ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font=`${bodyS*0.85}px "Special Elite",monospace`;
   const noteLines = [
