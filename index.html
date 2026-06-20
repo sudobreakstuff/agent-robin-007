@@ -21,10 +21,8 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .title-main{position:absolute;text-align:center;opacity:0;z-index:2}
 .title-main.show{animation:titleReveal 1.2s ease-out forwards}
 @keyframes titleReveal{0%{opacity:0;transform:translateY(20px) scale(0.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
-.title-main .code{font-family:'Cinzel Decorative',serif;font-size:clamp(2.5rem,10vw,5rem);color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.3),0 0 80px rgba(212,175,55,0.1);letter-spacing:0.1em;line-height:1}
-.title-main .code span{font-size:0.35em;display:block;letter-spacing:0.4em;margin-top:-0.3rem}
-.title-main .agent{font-family:'Cinzel',serif;font-size:clamp(0.6rem,2.2vw,1.1rem);color:#999;margin-top:0.5rem;letter-spacing:0.35em;text-transform:uppercase}
-.title-main .name{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,4.5vw,2.2rem);color:#fff;margin-top:0.1rem;letter-spacing:0.25em;text-shadow:0 0 20px rgba(255,255,255,0.1)}
+.title-main .code{font-family:'Cinzel Decorative',serif;font-size:clamp(2.5rem,10vw,5rem);color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.3),0 0 80px rgba(212,175,55,0.1);letter-spacing:0.1em;line-height:1;margin-bottom:0.2rem}
+.title-main .name{font-family:'Cinzel Decorative',serif;font-size:clamp(0.9rem,3.2vw,1.6rem);color:#fff;margin-top:0;letter-spacing:0.3em;text-shadow:0 0 20px rgba(255,255,255,0.1)}
 .title-main .years{font-family:'Cinzel',serif;font-size:clamp(0.5rem,1.8vw,0.85rem);color:#d4af37;margin-top:0.8rem;letter-spacing:0.3em}
 .title-main .subtitle{font-family:'Cinzel',serif;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#666;margin-top:0.3rem;letter-spacing:0.25em}
 .title-main .tap{font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#444;margin-top:2rem;animation:pulse 1.5s ease-in-out infinite;letter-spacing:0.25em}
@@ -58,29 +56,28 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .briefing-card .btn:hover,.briefing-card .btn:active{background:#d4af37;color:#000}
 
 /* ── GAME ── */
-#stage-game{background:radial-gradient(ellipse at 50% 60%,#111,#0a0a0a);overflow:hidden}
+#stage-game{background:linear-gradient(180deg,#1a2a1a 0%,#2a4a2a 20%,#3a5a3a 40%,#4a6a3a 55%,#8a7a5a 70%,#6a5a3a 80%,#4a3a2a 100%);overflow:hidden}
+#stage-game::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:30%;background:linear-gradient(0deg,rgba(0,0,0,0.3),transparent);pointer-events:none;z-index:1}
 #stage-game::before{content:'007';position:absolute;font-family:'Cinzel Decorative',serif;font-size:clamp(6rem,30vw,15rem);font-weight:900;color:rgba(255,255,255,0.012);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;letter-spacing:0.1em}
 .game-hud{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.8rem;z-index:10}
 .game-hud .round{font-size:clamp(0.45rem,1.3vw,0.65rem);color:#555;letter-spacing:0.15em}
 .game-hud .score{font-size:clamp(0.6rem,2vw,0.9rem);color:#d4af37;font-family:'Special Elite',monospace}
 .game-area{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4af37' stroke-width='1.2' opacity='0.85'/%3E%3Cline x1='16' y1='1' x2='16' y2='31' stroke='%23d4af37' stroke-width='0.8' opacity='0.3'/%3E%3Cline x1='1' y1='16' x2='31' y2='16' stroke='%23d4af37' stroke-width='0.8' opacity='0.3'/%3E%3Cline x1='16' y1='3' x2='16' y2='7' stroke='%23d4af37' stroke-width='1.4'/%3E%3Cline x1='16' y1='25' x2='16' y2='29' stroke='%23d4af37' stroke-width='1.4'/%3E%3Cline x1='3' y1='16' x2='7' y2='16' stroke='%23d4af37' stroke-width='1.4'/%3E%3Cline x1='25' y1='16' x2='29' y2='16' stroke='%23d4af37' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23cc0000'/%3E%3C/svg%3E") 16 16, crosshair}
-.game-target{position:absolute;width:86px;height:86px;transform:translate(-50%,-50%);cursor:crosshair;z-index:6}
-.game-target .to{position:absolute;top:3px;left:3px;right:3px;bottom:3px;border-radius:50%;background:#fff;box-shadow:0 0 20px rgba(255,255,255,0.06),inset 0 0 12px rgba(0,0,0,0.15)}
-.game-target .tm{position:absolute;top:17%;left:17%;right:17%;bottom:17%;border-radius:50%;background:radial-gradient(circle at 40% 40%,#fff,#ddd)}
-.game-target .ti{position:absolute;top:36%;left:36%;right:36%;bottom:36%;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ff4444,#bb0000)}
-.game-target .be{position:absolute;top:48%;left:48%;right:48%;bottom:48%;border-radius:50%;background:radial-gradient(circle at 40% 40%,#ff0000,#880000);box-shadow:0 0 6px rgba(255,0,0,0.3)}
+.game-target{position:absolute;width:100px;height:140px;transform:translate(-50%,-50%);cursor:crosshair;z-index:6}
+.game-target .si{width:100%;height:100%;background:url('target-silhouette.svg') no-repeat center/contain;filter:drop-shadow(0 0 8px rgba(0,0,0,0.5))}
+.game-target .si .chest{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;border:2px solid rgba(0,0,0,0.15);box-shadow:inset 0 0 6px rgba(0,0,0,0.1)}
 .game-combo{position:fixed;top:3rem;left:50%;transform:translateX(-50%);font-family:'Cinzel Decorative',serif;font-size:clamp(0.7rem,2.5vw,1.1rem);color:#d4af37;opacity:0;transition:all 0.3s;z-index:12;pointer-events:none;text-shadow:0 0 15px rgba(212,175,55,0.2);letter-spacing:0.1em}
 .game-combo.show{opacity:1}
 .game-combo .cnt{font-size:0.7em;color:#888;font-family:'Special Elite',monospace;display:inline-block;margin-left:0.3rem}
-.game-floating-quote{position:fixed;pointer-events:none;z-index:35;font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.4vw,0.65rem);color:#d4af37;text-shadow:0 0 10px rgba(212,175,55,0.15);opacity:0;white-space:nowrap}
+.game-floating-quote{position:fixed;pointer-events:none;z-index:35;font-family:'Special Elite',monospace;font-size:clamp(0.7rem,2.2vw,1rem);color:#d4af37;text-shadow:0 0 12px rgba(212,175,55,0.2),0 0 2px rgba(0,0,0,0.8);opacity:0;white-space:nowrap}
 .game-shake{animation:screenShake 0.25s ease-out}
 @keyframes screenShake{0%{transform:translate(0,0)}12%{transform:translate(-6px,4px)}25%{transform:translate(5px,-3px)}37%{transform:translate(-4px,6px)}50%{transform:translate(3px,-2px)}62%{transform:translate(-2px,3px)}75%{transform:translate(1px,-1px)}100%{transform:translate(0,0)}}
 .particle{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:30;opacity:1}
 .game-target.hit{pointer-events:none}
-.game-target.hit .to{animation:targetHit 0.45s ease-out forwards}
-@keyframes targetHit{0%{transform:scale(1);opacity:1;box-shadow:0 0 0 0 rgba(255,200,0,0)}8%{transform:scale(1.1);opacity:1;box-shadow:0 0 50px 15px rgba(255,200,0,0.5);background:#d4af37}30%{transform:scale(1.4);opacity:0.8;box-shadow:0 0 30px 5px rgba(255,200,0,0.2)}100%{transform:scale(2);opacity:0;box-shadow:0 0 0 0 rgba(255,200,0,0)}}
+.game-target.hit .si{animation:targetHit 0.45s ease-out forwards}
+@keyframes targetHit{0%{transform:scale(1);opacity:1;filter:drop-shadow(0 0 0 rgba(255,200,0,0))}8%{transform:scale(1.08);opacity:1;filter:drop-shadow(0 0 20px rgba(255,200,0,0.6)) sepia(1) hue-rotate(-15deg) saturate(1.5)}30%{transform:scale(1.2);opacity:0.8;filter:drop-shadow(0 0 15px rgba(255,200,0,0.3)) sepia(0.8) hue-rotate(-10deg)}100%{transform:scale(1.5);opacity:0;filter:drop-shadow(0 0 0 rgba(255,200,0,0))}}
 .game-target.missed{pointer-events:none}
-.game-target.missed .to{animation:targetMiss 0.35s ease-out forwards}
+.game-target.missed .si{animation:targetMiss 0.35s ease-out forwards}
 @keyframes targetMiss{0%{opacity:1}100%{opacity:0;transform:scale(0.6)}}
 .game-progress{position:fixed;bottom:1.8rem;left:10%;width:80%;height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;z-index:10}
 .game-progress .bar{height:100%;background:linear-gradient(90deg,#d4af37,#cc0000);border-radius:2px}
@@ -124,6 +121,19 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .easter-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-family:'Cinzel Decorative',serif;color:#d4af37;font-size:clamp(1rem,4vw,2rem);text-shadow:0 0 40px rgba(212,175,55,0.4);pointer-events:none;z-index:100;opacity:0;transition:all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);text-align:center;padding:1rem}
 .easter-toast.show{transform:translate(-50%,-50%) scale(1);opacity:1}
 .easter-toast .sub{font-size:0.45em;color:#888;font-family:'Special Elite',monospace;margin-top:0.2rem}
+
+/* ── DRIVE-AWAY ── */
+.drive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;overflow:hidden}
+.drive-overlay.active{display:flex}
+.drive-car{position:absolute;bottom:15%;width:clamp(180px,50vw,400px);height:auto;opacity:0;animation:driveAway 3s ease-in forwards}
+@keyframes driveAway{0%{transform:translateX(-10vw) scale(0.3);opacity:0}10%{transform:translateX(0) scale(1);opacity:1}25%{transform:translateX(5vw) scale(1);opacity:1}60%{transform:translateX(60vw) scale(0.8);opacity:1}85%{transform:translateX(100vw) scale(0.4);opacity:0.6}100%{transform:translateX(120vw) scale(0.2);opacity:0}}
+.drive-smoke{position:absolute;bottom:14%;opacity:0;animation:smokePuff 2s ease-out forwards}
+.drive-smoke1{left:30%;width:clamp(30px,8vw,60px);height:clamp(20px,5vw,40px);background:radial-gradient(ellipse,rgba(200,200,200,0.15),transparent);border-radius:50%;animation-delay:0.3s}
+.drive-smoke2{left:35%;width:clamp(40px,10vw,80px);height:clamp(25px,6vw,50px);background:radial-gradient(ellipse,rgba(200,200,200,0.1),transparent);border-radius:50%;animation-delay:0.6s}
+@keyframes smokePuff{0%{transform:scale(0.3);opacity:0}20%{transform:scale(1.2);opacity:1}60%{transform:scale(2);opacity:0.4}100%{transform:scale(3);opacity:0}}
+.drive-text{position:absolute;bottom:40%;text-align:center;opacity:0;animation:fadeIn 1s ease-out 2s forwards;z-index:10}
+.drive-text .t1{font-family:'Cinzel Decorative',serif;font-size:clamp(0.8rem,3vw,1.5rem);color:#d4af37;letter-spacing:0.15em}
+.drive-text .t2{font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#555;margin-top:0.3rem;letter-spacing:0.15em}
 
 /* ── ANIMATIONS ── */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -184,9 +194,8 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
   </svg>
   <div class="title-line" id="titleLine"></div>
   <div class="title-main" id="titleMain">
-    <div class="code">007<span>AGENT</span></div>
-    <div class="agent">Presenting</div>
-    <div class="name">ROBIN</div>
+    <div class="code">007</div>
+    <div class="name">AGENT ROBIN</div>
     <div class="years">22 YEARS OF DISTINGUISHED FATHERHOOD</div>
     <div class="subtitle">A FATHER'S DAY COMMENDATION</div>
     <div class="tap">TAP TO BEGIN</div>
@@ -524,13 +533,14 @@ function spawnTarget() {
 
   const area = document.getElementById('gameArea');
   const rect = area.getBoundingClientRect();
-  const sz = 86;
-  const x = sz + Math.random() * (rect.width - sz * 2);
-  const y = sz + Math.random() * (rect.height - sz * 3.5);
+  const sz = 100;
+  const sh = 140;
+  const x = sz/2 + Math.random() * (rect.width - sz);
+  const y = sh/2 + Math.random() * (rect.height - sh * 2.5);
 
   const el = document.createElement('div');
   el.className = 'game-target';
-  el.innerHTML = '<div class="to"><div class="tm"><div class="ti"><div class="be"></div></div></div></div>';
+  el.innerHTML = '<div class="si"><div class="chest"></div></div>';
   el.style.left = x + 'px'; el.style.top = y + 'px';
   area.appendChild(el);
 
@@ -582,22 +592,23 @@ function spawnTarget() {
 }
 
 const BOND_QUOTES = [
-  'Shaken, not stirred.','Bond. James Bond.','The name\'s Bond.','For your eyes only.','You only live twice.','Never say never again.','Licence to kill.','A martini. Dry. With a twist.','Keep your friends close.','Quality over quantity.','Moneypenny.','Q Branch.','Double-0 status.','Classified.','I\'m just a professional.','Aston Martin. V12.','Ejector seat? Optional.','R shaken, not stirred.','Target eliminated.','On Her Majesty\'s Service.',
+  'Shaken, not stirred.','The name\'s Bond. James Bond.','I never miss.','Shocking. Positively shocking.','You only live twice.','Now pay attention, 007.','World domination. Same old dream.','A dry martini. With a twist.','Take the bloody shot!','Sometimes the old ways are best.','A DB5. With modifications.','I\'m not a relic, I\'m a vintage.','Licence to kill.','Never say never again.','Keep your eyes on the road, 007.','I\'m just a professional.','Double-0 status. Granted.','For your eyes only.','That\'s a Smith & Wesson. And you?','Welcome to Scotland, 007.','What the hell are you doing?','The job\'s done. The big one.','Moneypenny. How nice to see you.','Q Branch. Don\'t touch anything.','Ejector seat? You\'re joking.','I think he\'s attempting re-entry.','Shaken. Not stirred.','Bond. James Bond.',
 ];
 
 function spawnFloatQuote(x, y) {
   const el = document.createElement('div');
   el.className = 'game-floating-quote';
   el.textContent = BOND_QUOTES[Math.floor(Math.random() * BOND_QUOTES.length)];
-  el.style.left = (x - 60 + Math.random() * 120) + 'px';
+  el.style.left = (x - 80 + Math.random() * 160) + 'px';
   el.style.top = y + 'px';
   document.body.appendChild(el);
-  const dur = 1 + Math.random() * 0.8;
+  const dur = 2.5 + Math.random() * 1.5;
   el.animate([
     { transform: 'translateY(0) scale(0.5)', opacity: 0 },
-    { transform: 'translateY(0) scale(1.1)', opacity: 1, offset: 0.1 },
-    { transform: `translateY(-${40 + Math.random() * 50}px) scale(1)`, opacity: 1, offset: 0.5 },
-    { transform: `translateY(-${80 + Math.random() * 60}px) scale(0.8)`, opacity: 0 },
+    { transform: 'translateY(0) scale(1.15)', opacity: 1, offset: 0.08 },
+    { transform: `translateY(-${30 + Math.random() * 40}px) scale(1)`, opacity: 1, offset: 0.45 },
+    { transform: `translateY(-${70 + Math.random() * 50}px) scale(0.9)`, opacity: 0.5, offset: 0.7 },
+    { transform: `translateY(-${110 + Math.random() * 60}px) scale(0.7)`, opacity: 0 },
   ], { duration: dur * 1000, easing: 'ease-out', fill: 'forwards' });
   setTimeout(() => el.remove(), dur * 1000 + 100);
 }
@@ -931,6 +942,7 @@ window.saveCard = function() {
 };
 
 window.replayGame = function() {
+  showStage('stage-game');
   S.score=0; S.hits=0; S.misses=0; S.totalHits=0; S.totalTargets=0; S.combo=0;
   S.targetCount=0; S.round=0; S.targetActive=false; S.roundRunning=false;
   S.gfClicks=0; S.gfUnlocked=false; S.shakenDone=false; S.isChill=false;
