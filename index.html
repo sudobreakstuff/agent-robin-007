@@ -13,22 +13,22 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .stage.active{display:flex}
 
 /* ── TITLE ── */
-#stage-title{background:#000;z-index:50}
-#stage-title .title-bg{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.title-barrel{width:100vmin;height:100vmin;opacity:0.7;animation:barrelPulse 6s ease-in-out infinite}
+#stage-title{background:#000;z-index:50;overflow:hidden}
+.title-barrel{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.7;animation:barrelPulse 6s ease-in-out infinite;pointer-events:none}
 @keyframes barrelPulse{0%,100%{opacity:0.6}50%{opacity:0.85}}
 .title-rifling{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);animation:riflingSpin 20s linear infinite;opacity:0.5;pointer-events:none}
 @keyframes riflingSpin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
-.title-main{position:relative;text-align:center;z-index:2;animation:titleFadeIn 1.2s ease-out 0.5s both;width:85vw}
+.title-main{position:absolute;text-align:center;opacity:0;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);width:80vw}
+.title-main.show{animation:titleReveal 1.2s ease-out forwards}
+@keyframes titleReveal{0%{opacity:0;transform:translate(-50%,calc(-50% + 20px)) scale(0.9)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 .title-main .code{font-family:'Cinzel Decorative',serif;font-size:clamp(2.5rem,10vw,5rem);color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.3),0 0 80px rgba(212,175,55,0.1);letter-spacing:0.1em;line-height:1;margin-bottom:0.2rem}
 .title-main .name{font-family:'Cinzel Decorative',serif;font-size:clamp(0.9rem,3.2vw,1.6rem);color:#fff;margin-top:0;letter-spacing:0.3em;text-shadow:0 0 20px rgba(255,255,255,0.1)}
 .title-main .years{font-family:'Cinzel',serif;font-size:clamp(0.5rem,1.8vw,0.85rem);color:#d4af37;margin-top:0.8rem;letter-spacing:0.3em}
 .title-main .subtitle{font-family:'Cinzel',serif;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#666;margin-top:0.3rem;letter-spacing:0.25em}
 .title-main .tap{font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#444;margin-top:2rem;animation:pulse 1.5s ease-in-out infinite;letter-spacing:0.25em}
-.title-line{width:40vmin;height:1px;background:linear-gradient(90deg,transparent,#d4af37,transparent);opacity:0;animation:titleLineIn 1s ease-out 1s forwards;margin:0 auto 0.8rem}
-@keyframes titleFadeIn{0%{opacity:0;transform:translateY(15px)}100%{opacity:1;transform:translateY(0)}}
-@keyframes titleLineIn{0%{opacity:0;transform:scaleX(0)}100%{opacity:0.4;transform:scaleX(1)}}
-@keyframes pulse{0%,100%{opacity:0.25}50%{opacity:0.6}}
+.title-line{position:absolute;width:40vmin;height:1px;background:linear-gradient(90deg,transparent,#d4af37,transparent);opacity:0;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%)}
+.title-line.show{animation:titleLineIn 1s ease-out 0.3s forwards}
+@keyframes titleLineIn{0%{opacity:0;transform:translate(-50%,-50%) scaleX(0)}100%{opacity:0.4;transform:translate(-50%,-50%) scaleX(1)}}
 
 
 /* ── BRIEFING ── */
@@ -155,58 +155,56 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 
 <!-- TITLE -->
 <div id="stage-title" class="stage active">
-  <div class="title-bg">
-    <svg class="title-barrel" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="v" cx="50%" cy="50%" r="65%">
-          <stop offset="0%" stop-color="#0d0d0d"/><stop offset="45%" stop-color="#050505"/><stop offset="100%" stop-color="#000"/>
-        </radialGradient>
-        <radialGradient id="m1" cx="50%" cy="50%" r="50%">
-          <stop offset="62%" stop-color="transparent"/><stop offset="66%" stop-color="#2a2a2a"/><stop offset="69%" stop-color="#111"/><stop offset="72%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="transparent"/>
-        </radialGradient>
-        <radialGradient id="m2" cx="50%" cy="50%" r="50%">
-          <stop offset="70%" stop-color="transparent"/><stop offset="73%" stop-color="#333"/><stop offset="76%" stop-color="#0d0d0d"/><stop offset="79%" stop-color="#222"/><stop offset="100%" stop-color="transparent"/>
-        </radialGradient>
-        <radialGradient id="m3" cx="50%" cy="50%" r="50%">
-          <stop offset="78%" stop-color="transparent"/><stop offset="81%" stop-color="#2a2a2a"/><stop offset="84%" stop-color="#0a0a0a"/><stop offset="87%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="transparent"/>
-        </radialGradient>
-        <radialGradient id="is" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#000"/><stop offset="30%" stop-color="#030303"/><stop offset="50%" stop-color="#080808"/><stop offset="70%" stop-color="#0f0f0f"/><stop offset="100%" stop-color="transparent"/>
-        </radialGradient>
-      </defs>
-      <rect width="400" height="400" fill="url(#v)"/>
-      <circle cx="200" cy="200" r="195" fill="url(#m1)"/>
-      <circle cx="200" cy="200" r="190" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
-      <circle cx="200" cy="200" r="185" fill="url(#m2)"/>
-      <circle cx="200" cy="200" r="180" fill="none" stroke="#151515" stroke-width="1"/>
-      <circle cx="200" cy="200" r="175" fill="url(#m3)"/>
-      <circle cx="200" cy="200" r="168" fill="none" stroke="#111" stroke-width="2"/>
-      <circle cx="200" cy="200" r="162" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
-      <circle cx="200" cy="200" r="155" fill="none" stroke="rgba(212,175,55,0.04)" stroke-width="1"/>
-      <circle cx="200" cy="200" r="148" fill="none" stroke="#0f0f0f" stroke-width="2.5"/>
-      <circle cx="200" cy="200" r="140" fill="none" stroke="#151515" stroke-width="1"/>
-      <circle cx="200" cy="200" r="132" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="0.8"/>
-      <circle cx="200" cy="200" r="125" fill="none" stroke="#0d0d0d" stroke-width="3"/>
-      <circle cx="200" cy="200" r="115" fill="url(#is)"/>
-      <circle cx="200" cy="200" r="80" fill="#000"/>
-      <circle cx="200" cy="200" r="115" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
-    </svg>
-    <svg class="title-rifling" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="rf" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(14)">
-          <line x1="0" y1="0" x2="6" y2="6" stroke="#d4af37" stroke-width="0.6" opacity="0.12"/>
-        </pattern>
-        <pattern id="rf2" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-10)">
-          <line x1="0" y1="0" x2="8" y2="8" stroke="#fff" stroke-width="0.3" opacity="0.05"/>
-        </pattern>
-      </defs>
-      <circle cx="200" cy="200" r="150" fill="url(#rf)"/>
-      <circle cx="200" cy="200" r="150" fill="url(#rf2)"/>
-      <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="0.5"/>
-    </svg>
-  </div>
+  <svg class="title-barrel" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="v" cx="50%" cy="50%" r="65%">
+        <stop offset="0%" stop-color="#0d0d0d"/><stop offset="45%" stop-color="#050505"/><stop offset="100%" stop-color="#000"/>
+      </radialGradient>
+      <radialGradient id="m1" cx="50%" cy="50%" r="50%">
+        <stop offset="62%" stop-color="transparent"/><stop offset="66%" stop-color="#2a2a2a"/><stop offset="69%" stop-color="#111"/><stop offset="72%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="m2" cx="50%" cy="50%" r="50%">
+        <stop offset="70%" stop-color="transparent"/><stop offset="73%" stop-color="#333"/><stop offset="76%" stop-color="#0d0d0d"/><stop offset="79%" stop-color="#222"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="m3" cx="50%" cy="50%" r="50%">
+        <stop offset="78%" stop-color="transparent"/><stop offset="81%" stop-color="#2a2a2a"/><stop offset="84%" stop-color="#0a0a0a"/><stop offset="87%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="is" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#000"/><stop offset="30%" stop-color="#030303"/><stop offset="50%" stop-color="#080808"/><stop offset="70%" stop-color="#0f0f0f"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="400" fill="url(#v)"/>
+    <circle cx="200" cy="200" r="195" fill="url(#m1)"/>
+    <circle cx="200" cy="200" r="190" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="185" fill="url(#m2)"/>
+    <circle cx="200" cy="200" r="180" fill="none" stroke="#151515" stroke-width="1"/>
+    <circle cx="200" cy="200" r="175" fill="url(#m3)"/>
+    <circle cx="200" cy="200" r="168" fill="none" stroke="#111" stroke-width="2"/>
+    <circle cx="200" cy="200" r="162" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="155" fill="none" stroke="rgba(212,175,55,0.04)" stroke-width="1"/>
+    <circle cx="200" cy="200" r="148" fill="none" stroke="#0f0f0f" stroke-width="2.5"/>
+    <circle cx="200" cy="200" r="140" fill="none" stroke="#151515" stroke-width="1"/>
+    <circle cx="200" cy="200" r="132" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="0.8"/>
+    <circle cx="200" cy="200" r="125" fill="none" stroke="#0d0d0d" stroke-width="3"/>
+    <circle cx="200" cy="200" r="115" fill="url(#is)"/>
+    <circle cx="200" cy="200" r="80" fill="#000"/>
+    <circle cx="200" cy="200" r="115" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+  </svg>
+  <svg class="title-rifling" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="rf" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(14)">
+        <line x1="0" y1="0" x2="6" y2="6" stroke="#d4af37" stroke-width="0.6" opacity="0.12"/>
+      </pattern>
+      <pattern id="rf2" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-10)">
+        <line x1="0" y1="0" x2="8" y2="8" stroke="#fff" stroke-width="0.3" opacity="0.05"/>
+      </pattern>
+    </defs>
+    <circle cx="200" cy="200" r="150" fill="url(#rf)"/>
+    <circle cx="200" cy="200" r="150" fill="url(#rf2)"/>
+    <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="0.5"/>
+  </svg>
+  <div class="title-line" id="titleLine"></div>
   <div class="title-main" id="titleMain">
-    <div class="title-line" id="titleLine"></div>
     <div class="code">007</div>
     <div class="name">AGENT ROBIN</div>
     <div class="years">22 YEARS OF DISTINGUISHED FATHERHOOD</div>
@@ -475,10 +473,23 @@ function showStage(id) {
 // ──────────────────────────────────────────────────────
 function startTitle() {
   showStage('stage-title');
+  const titleMain = document.getElementById('titleMain');
+  const titleLine = document.getElementById('titleLine');
+
+  // Auto-reveal title after a moment
+  setTimeout(() => {
+    titleMain.classList.add('show');
+    titleLine.classList.add('show');
+  }, 1200);
 
   // Tap to start
   document.getElementById('stage-title').addEventListener('click', function onStart() {
     this.removeEventListener('click', onStart);
+    // If the title hasn't appeared yet, force it
+    if (!titleMain.classList.contains('show')) {
+      titleMain.classList.add('show');
+      titleLine.classList.add('show');
+    }
     initAudio();
     startMusic();
     setTimeout(() => startBriefing(), 800);
@@ -1015,6 +1026,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.getElementById('stage-title').addEventListener('click', (e) => {
+  if (!document.getElementById('titleMain').classList.contains('show')) return;
   if (e.target.closest('.title-main')) {
     S.gfClicks++;
     if (S.gfClicks >= 7 && !S.gfUnlocked) { S.gfUnlocked = true; showToast('GOLDFINGER','No, Mr. Bond, I expect you to die!'); }
