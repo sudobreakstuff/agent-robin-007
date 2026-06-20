@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>007: Agent Robin — Father's Day Commendation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Special+Elite&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#three-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.overlay.active { display: flex; }
+
+/* ── TITLE ── */
+#phase-title .title-main {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.8rem, 7vw, 4rem);
+  color: #d4af37;
+  text-shadow: 0 0 30px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.2);
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 1s;
+  z-index: 2; text-align: center;
+  letter-spacing: 0.15em;
+  line-height: 1.3;
+  padding: 0 1rem;
+}
+#phase-title .title-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.7rem, 2.5vw, 1.2rem);
+  color: #ccc;
+  margin-top: 1rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 2s;
+  z-index: 2;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+#phase-title .title-tap {
+  position: absolute;
+  bottom: 12%;
+  font-family: 'Special Elite', monospace;
+  font-size: clamp(0.65rem, 2vw, 0.9rem);
+  color: #666;
+  animation: pulse 1.5s ease-in-out infinite;
+  z-index: 2;
+  letter-spacing: 0.2em;
+}
+
+/* ── BRIEFING ── */
+#phase-briefing { justify-content: flex-end; }
+#phase-briefing .briefing-scroll {
+  position: absolute;
+  width: 85%;
+  max-width: 600px;
+  bottom: -100%;
+  animation: scrollUp 10s linear forwards;
+}
+#phase-briefing .briefing-scroll p {
+  font-family: 'Special Elite', monospace;
+  font-size: clamp(0.8rem, 2.8vw, 1.1rem);
+  color: #aaa;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  text-align: justify;
+}
+#phase-briefing .gold { color: #d4af37; font-family: 'Cinzel', serif; font-size: 1.1em; }
+@keyframes scrollUp {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(-120%); opacity: 1; }
+  100% { transform: translateY(-150%); opacity: 0; }
+}
+#phase-briefing .briefing-skip {
+  position: absolute;
+  bottom: 2rem;
+  font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+  color: #444;
+  cursor: pointer;
+  z-index: 15;
+  transition: color 0.3s;
+  letter-spacing: 0.1em;
+}
+#phase-briefing .briefing-skip:hover, #phase-briefing .briefing-skip:active { color: #d4af37; }
+
+/* ── GAME HUD ── */
+#game-hud {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  z-index: 20;
+  pointer-events: none;
+}
+#game-hud.active { display: flex; }
+#game-hud .game-round { font-size: clamp(0.65rem, 2vw, 0.85rem); color: #d4af37; letter-spacing: 0.15em; }
+#game-hud .game-score { font-size: clamp(0.75rem, 2.5vw, 1rem); color: #fff; font-family: 'Special Elite', monospace; }
+#game-hud .game-timer-container {
+  position: fixed;
+  bottom: 2rem; left: 10%;
+  width: 80%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  display: none;
+}
+#game-hud .game-timer-container.active { display: block; }
+#game-hud .game-timer-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #ff4444);
+  width: 100%;
+  transition: width 0.1s linear;
+  border-radius: 2px;
+}
+#game-hud .game-hint {
+  position: fixed;
+  bottom: 0.8rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+  color: #444;
+  font-family: 'Special Elite', monospace;
+  letter-spacing: 0.1em;
+}
+#game-hud .crosshair {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px; height: 30px;
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0.4;
+}
+#game-hud .crosshair::before, #game-hud .crosshair::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.3);
+}
+#game-hud .crosshair::before {
+  width: 1px; height: 100%;
+  left: 50%; transform: translateX(-50%);
+}
+#game-hud .crosshair::after {
+  width: 100%; height: 1px;
+  top: 50%; transform: translateY(-50%);
+}
+
+/* ── COMMENDATION ── */
+#phase-commendation { background: rgba(0,0,0,0.7); }
+.commendation-card {
+  position: relative;
+  max-width: 420px;
+  width: 92%;
+  aspect-ratio: 4 / 3;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(212,175,55,0.3), inset 0 0 60px rgba(0,0,0,0.5);
+  background: #0d0d0d;
+}
+.commendation-card canvas { width: 100%; height: 100%; display: block; }
+.commendation-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.commendation-actions button {
+  background: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 0.5rem 1.2rem;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+.commendation-actions button:hover, .commendation-actions button:active {
+  background: #d4af37;
+  color: #000;
+}
+.commendation-hint {
+  font-family: 'Special Elite', monospace;
+  font-size: clamp(0.5rem, 1.5vw, 0.65rem);
+  color: #555;
+  margin-top: 0.6rem;
+  text-align: center;
+}
+
+/* ── EASTER EGG TOAST ── */
+.easter-egg-toast {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-family: 'Cinzel Decorative', serif;
+  color: #d4af37;
+  font-size: clamp(1.3rem, 5vw, 2.5rem);
+  text-shadow: 0 0 40px rgba(212,175,55,0.6);
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+  padding: 1rem;
+}
+.easter-egg-toast.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+.easter-egg-toast .sub {
+  font-size: 0.5em;
+  color: #888;
+  font-family: 'Special Elite', monospace;
+  margin-top: 0.3rem;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+</style>
+</head>
+<body>
+
+<div id="three-container"></div>
+
+<!-- TITLE -->
+<div id="phase-title" class="overlay active">
+  <div class="title-main">007<br><span style="font-size:0.7em;letter-spacing:0.3em;">AGENT</span> ROBIN</div>
+  <div class="title-sub">22 Years of Distinguished Fatherhood</div>
+  <div class="title-tap" id="titleTap">TAP ANYWHERE TO BEGIN</div>
+</div>
+
+<!-- BRIEFING -->
+<div id="phase-briefing" class="overlay">
+  <div class="briefing-scroll" id="briefingScroll">
+    <p>
+      <span class="gold">MISSION BRIEFING</span><br><br>
+      Agent Robin,<br><br>
+      After <span class="gold">22 years</span> of exemplary service — of bedtime missions,
+      school-run extractions, and unwavering protection —
+      MI6 has deemed you the <span class="gold">world's best father</span>.<br><br>
+      Your final objective: complete the <span class="gold">Target Practice</span> exercise
+      to unlock your <span class="gold">Father's Day Commendation</span>.<br><br>
+      No pressure, 007. You've already earned it.<br><br>
+      <span style="color:#666;">This message will self-destruct.</span>
+    </p>
+  </div>
+  <div class="briefing-skip" id="briefingSkip">SKIP &rarr;</div>
+</div>
+
+<!-- GAME HUD -->
+<div id="game-hud">
+  <span class="game-round" id="gameRound">STEADY AIM</span>
+  <span class="game-score" id="gameScore">00</span>
+  <div class="crosshair"></div>
+  <div class="game-timer-container" id="timerContainer">
+    <div class="game-timer-bar" id="timerBar"></div>
+  </div>
+  <div class="game-hint" id="gameHint">Tap the targets</div>
+</div>
+
+<!-- COMMENDATION -->
+<div id="phase-commendation" class="overlay">
+  <div class="commendation-card" id="commendationCard">
+    <canvas id="commendationCanvas"></canvas>
+  </div>
+  <div class="commendation-actions">
+    <button onclick="window.saveCard()">DOWNLOAD IMAGE</button>
+    <button onclick="window.replayGame()">PLAY AGAIN</button>
+  </div>
+  <div class="commendation-hint">
+    Screenshot this card to share on your status
+  </div>
+</div>
+
+<!-- EASTER EGG -->
+<div class="easter-egg-toast" id="easterEggToast"></div>
+
+<script>
+// ──────────────────────────────────────────────────────
+// THREE.JS SETUP
+// ──────────────────────────────────────────────────────
+const container = document.getElementById('three-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
+scene.fog = new THREE.Fog(0x000000, 8, 20);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 30);
+camera.position.set(0, 0.5, 6);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+container.appendChild(renderer.domElement);
+
+// Lights
+const ambient = new THREE.AmbientLight(0x222244, 0.5);
+scene.add(ambient);
+const mainLight = new THREE.DirectionalLight(0xffeedd, 1);
+mainLight.position.set(2, 5, 5);
+scene.add(mainLight);
+const fillLight = new THREE.DirectionalLight(0x4488ff, 0.3);
+fillLight.position.set(-3, -1, -2);
+scene.add(fillLight);
+const backLight = new THREE.PointLight(0xd4af37, 0.3, 10);
+backLight.position.set(0, 0, -3);
+scene.add(backLight);
+
+// Starfield
+const starCount = 600;
+const starGeo = new THREE.BufferGeometry();
+const starPos = new Float32Array(starCount * 3);
+const starSizes = new Float32Array(starCount);
+for (let i = 0; i < starCount; i++) {
+  const r = 5 + Math.random() * 15;
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+  starPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
+  starPos[i*3+1] = r * Math.cos(phi);
+  starPos[i*3+2] = r * Math.sin(phi) * Math.sin(theta);
+  starSizes[i] = 0.03 + Math.random() * 0.07;
+}
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+starGeo.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
+const starMat = new THREE.PointsMaterial({
+  color: 0xffffff, size: 0.06, transparent: true, opacity: 0.8,
+  blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+});
+const stars = new THREE.Points(starGeo, starMat);
+scene.add(stars);
+
+// Title rings (gun barrel effect)
+const titleRingGroup = new THREE.Group();
+scene.add(titleRingGroup);
+const ringColors = [0xd4af37, 0xffffff, 0x8b0000, 0xd4af37];
+const ringRadii = [1.8, 1.4, 1.0, 0.6];
+const titleRings = [];
+ringRadii.forEach((r, i) => {
+  const geo = new THREE.TorusGeometry(r, 0.02, 8, 64);
+  const mat = new THREE.MeshBasicMaterial({
+    color: ringColors[i],
+    transparent: true,
+    opacity: 0.6 + i * 0.1
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.rotation.x = Math.PI / 3;
+  mesh.rotation.z = i * 0.3;
+  titleRingGroup.add(mesh);
+  titleRings.push(mesh);
+});
+
+// Target materials (reusable)
+const targetMat = new THREE.MeshStandardMaterial({
+  color: 0xff3333,
+  emissive: 0xff0000,
+  emissiveIntensity: 0.6,
+  metalness: 0.3,
+  roughness: 0.4,
+});
+const targetRingMat = new THREE.MeshBasicMaterial({
+  color: 0x00ffff,
+  transparent: true,
+  opacity: 0.4,
+  side: THREE.DoubleSide,
+});
+const targetGlowMat = new THREE.SpriteMaterial({
+  map: createGlowTexture(),
+  blending: THREE.AdditiveBlending,
+  transparent: true,
+  opacity: 0.3,
+});
+function createGlowTexture() {
+  const size = 64;
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.2, 'rgba(255,0,0,0.8)');
+  grad.addColorStop(0.5, 'rgba(255,0,0,0.3)');
+  grad.addColorStop(1, 'rgba(255,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(c);
+}
+
+const targetGroup = new THREE.Group();
+scene.add(targetGroup);
+
+let activeTargets = [];
+let particles = [];
+
+// ──────────────────────────────────────────────────────
+// AUDIO ENGINE
+// ──────────────────────────────────────────────────────
+let audioCtx = null;
+let masterGain = null;
+let isAudioReady = false;
+
+function initAudio() {
+  if (isAudioReady) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.3;
+  masterGain.connect(audioCtx.destination);
+  isAudioReady = true;
+}
+
+function playBondChord() {
+  if (!isAudioReady) return;
+  const freqs = [77.78, 98.0, 116.54, 138.59, 155.56, 196.0];
+  const now = audioCtx.currentTime;
+  freqs.forEach((freq) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.1, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 2);
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(100, now);
+    filter.frequency.linearRampToValueAtTime(2000, now + 0.1);
+    filter.frequency.exponentialRampToValueAtTime(800, now + 1.5);
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain);
+    osc.start(now);
+    osc.stop(now + 2);
+  });
+}
+
+function playHitSound() {
+  if (!isAudioReady) return;
+  const now = audioCtx.currentTime;
+  [0, 0.05].forEach((d) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = d === 0 ? 'sine' : 'triangle';
+    osc.frequency.setValueAtTime(d === 0 ? 1200 : 600, now + d);
+    osc.frequency.exponentialRampToValueAtTime(d === 0 ? 800 : 300, now + d + 0.1);
+    gain.gain.setValueAtTime(0.15, now + d);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + d + 0.12);
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.start(now + d);
+    osc.stop(now + d + 0.12);
+  });
+  const osc2 = audioCtx.createOscillator();
+  const gain2 = audioCtx.createGain();
+  osc2.type = 'sine';
+  osc2.frequency.value = 80;
+  gain2.gain.setValueAtTime(0.15, now);
+  gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+  osc2.connect(gain2);
+  gain2.connect(masterGain);
+  osc2.start(now);
+  osc2.stop(now + 0.06);
+}
+
+function playMissSound() {
+  if (!isAudioReady) return;
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(200, now);
+  osc.frequency.exponentialRampToValueAtTime(60, now + 0.25);
+  gain.gain.setValueAtTime(0.06, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(now);
+  osc.stop(now + 0.25);
+}
+
+function playFanfare() {
+  if (!isAudioReady) return;
+  const notes = [
+    { freq: 311.13, t: 0 }, { freq: 466.16, t: 0.25 },
+    { freq: 622.25, t: 0.5 }, { freq: 783.99, t: 0.75 },
+    { freq: 932.33, t: 1.0 }, { freq: 1244.5, t: 1.25 },
+  ];
+  const now = audioCtx.currentTime;
+  notes.forEach(({freq, t}) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.value = freq;
+    const t0 = now + t;
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(0.08, t0 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, t0 + 1.2);
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 3000;
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain);
+    osc.start(t0);
+    osc.stop(t0 + 1.2);
+  });
+}
+
+function playRoundSound(roundNum) {
+  if (!isAudioReady) return;
+  const now = audioCtx.currentTime;
+  const base = 300 + roundNum * 100;
+  [0, 0.08, 0.16].forEach((delay, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = base + i * 80;
+    gain.gain.setValueAtTime(0, now + delay);
+    gain.gain.linearRampToValueAtTime(0.06, now + delay + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.15);
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.start(now + delay);
+    osc.stop(now + delay + 0.15);
+  });
+}
+
+function playMartiniToast() {
+  if (!isAudioReady) return;
+  const now = audioCtx.currentTime;
+  [0, 0.04, 0.08, 0.12].forEach((delay, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 800 + i * 400;
+    gain.gain.setValueAtTime(0.04, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.25);
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.start(now + delay);
+    osc.stop(now + delay + 0.25);
+  });
+}
+
+// ──────────────────────────────────────────────────────
+// GAME STATE
+// ──────────────────────────────────────────────────────
+const state = {
+  phase: 'title',
+  score: 0,
+  hits: 0,
+  misses: 0,
+  totalHits: 0,
+  totalTargets: 0,
+  round: 0,
+  maxRound: 3,
+  targetActive: false,
+  timerId: null,
+  isChillMode: false,
+  roundRunning: false,
+  keyBuffer: [],
+  goldfingerClicks: 0,
+  goldfingerUnlocked: false,
+  shakenComplete: false,
+};
+
+const ROUND_TIMES = [4000, 3000, 2000];
+const ROUNDS = [
+  { name: 'STEADY AIM', count: 5, subtitle: 'Take your time, 007' },
+  { name: 'SPEED LOAD', count: 8, subtitle: 'Quick hands, steady eyes' },
+  { name: 'FINAL STAND', count: 10, subtitle: 'No pressure, Agent Robin' },
+];
+
+let currentTargetInRound = 0;
+let targetsInRound = 0;
+let roundTimer = 0;
+let timerStart = 0;
+let animFrameId = null;
+
+// ──────────────────────────────────────────────────────
+// PHASE MANAGEMENT
+// ──────────────────────────────────────────────────────
+function showOverlay(id) {
+  document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function hideAllOverlays() {
+  document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
+}
+
+function showHUD(show) {
+  document.getElementById('game-hud').classList.toggle('active', show);
+}
+
+// ──────────────────────────────────────────────────────
+// THREE.JS HELPERS
+// ──────────────────────────────────────────────────────
+function createTarget3D(x, y) {
+  const group = new THREE.Group();
+
+  const sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(0.22, 20, 20),
+    targetMat.clone()
+  );
+  group.add(sphere);
+
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(0.32, 0.025, 8, 32),
+    targetRingMat.clone()
+  );
+  ring.rotation.x = Math.PI / 2;
+  ring.position.z = 0;
+  group.add(ring);
+
+  const glow = new THREE.Sprite(targetGlowMat.clone());
+  glow.scale.set(1.2, 1.2, 1);
+  group.add(glow);
+
+  group.position.set(x, y, 0);
+  const scale = 0.5 + Math.random() * 0.5;
+  group.scale.set(scale, scale, scale);
+
+  targetGroup.add(group);
+
+  return {
+    group, sphere, ring, glow,
+    hit: false, missed: false,
+    createdAt: Date.now(),
+    duration: roundTimer,
+    startScale: scale,
+  };
+}
+
+function spawnParticles(x, y, z) {
+  const count = 25;
+  const geo = new THREE.BufferGeometry();
+  const positions = new Float32Array(count * 3);
+  const velocities = [];
+  for (let i = 0; i < count; i++) {
+    positions[i*3] = 0;
+    positions[i*3+1] = 0;
+    positions[i*3+2] = 0;
+    velocities.push({
+      x: (Math.random() - 0.5) * 6,
+      y: (Math.random() - 0.5) * 6,
+      z: (Math.random() - 0.5) * 4,
+    });
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({
+    color: 0xd4af37,
+    size: 0.05,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    opacity: 1,
+    depthWrite: false,
+  });
+  const points = new THREE.Points(geo, mat);
+  points.position.set(x, y, z);
+  scene.add(points);
+  particles.push({ points, velocities, age: 0, maxAge: 0.8 });
+}
+
+function clearTargets() {
+  while (targetGroup.children.length > 0) {
+    const child = targetGroup.children[0];
+    child.traverse((node) => {
+      if (node.geometry) node.geometry.dispose();
+      if (node.material) node.material.dispose();
+    });
+    targetGroup.remove(child);
+  }
+  activeTargets = [];
+}
+
+// ──────────────────────────────────────────────────────
+// TITLE
+// ──────────────────────────────────────────────────────
+function startTitle() {
+  state.phase = 'title';
+  showOverlay('phase-title');
+  showHUD(false);
+  clearTargets();
+  titleRingGroup.visible = true;
+
+  const onStart = () => {
+    document.removeEventListener('click', onStart);
+    document.removeEventListener('touchstart', onStart);
+    initAudio();
+    playBondChord();
+    titleRings.forEach(r => {
+      r.scale.set(3, 3, 3);
+      r.material.opacity = 0;
+    });
+    setTimeout(() => startBriefing(), 800);
+  };
+  document.addEventListener('click', onStart);
+  document.addEventListener('touchstart', onStart);
+}
+
+// ──────────────────────────────────────────────────────
+// BRIEFING
+// ──────────────────────────────────────────────────────
+function startBriefing() {
+  state.phase = 'briefing';
+  showOverlay('phase-briefing');
+  const scroll = document.getElementById('briefingScroll');
+  const parent = scroll.parentNode;
+  const clone = scroll.cloneNode(true);
+  parent.insertBefore(clone, scroll);
+  parent.removeChild(scroll);
+  clone.id = 'briefingScroll';
+  clone.style.animation = 'none';
+  void clone.offsetHeight;
+  clone.style.animation = 'scrollUp 10s linear forwards';
+
+  setTimeout(() => playBondChord(), 1200);
+  setTimeout(() => playBondChord(), 3800);
+  setTimeout(() => playBondChord(), 6500);
+
+  document.getElementById('briefingSkip').onclick = () => startGame();
+  setTimeout(() => startGame(), 10500);
+}
+
+// ──────────────────────────────────────────────────────
+// GAME
+// ──────────────────────────────────────────────────────
+function startGame() {
+  state.phase = 'game';
+  state.round = 0;
+  state.score = 0;
+  state.hits = 0;
+  state.misses = 0;
+  state.totalHits = 0;
+  state.totalTargets = 0;
+  state.roundRunning = false;
+  titleRingGroup.visible = false;
+  hideAllOverlays();
+  showHUD(true);
+
+  document.getElementById('gameHint').textContent = '';
+  document.getElementById('timerContainer').classList.remove('active');
+
+  startRound();
+}
+
+function startRound() {
+  if (state.round >= state.maxRound) {
+    showCommendation();
+    return;
+  }
+  const round = ROUNDS[state.round];
+  roundTimer = ROUND_TIMES[state.round];
+  if (state.isChillMode) roundTimer *= 1.5;
+  currentTargetInRound = 0;
+  targetsInRound = round.count;
+
+  document.getElementById('gameRound').textContent = round.name;
+  document.getElementById('gameHint').textContent = round.subtitle;
+  updateScoreHUD();
+
+  clearTargets();
+
+  // Countdown overlay via DOM
+  let count = 3;
+  const cd = document.createElement('div');
+  cd.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:25;background:rgba(0,0,0,0.7);';
+  cd.innerHTML = `<div style="font-family:'Cinzel Decorative',serif;color:#d4af37;font-size:clamp(2rem,8vw,4rem);text-shadow:0 0 30px rgba(212,175,55,0.5);">${count}</div>`;
+  document.body.appendChild(cd);
+  playRoundSound(state.round);
+
+  const iv = setInterval(() => {
+    count--;
+    if (count > 0) {
+      cd.querySelector('div').textContent = count;
+    } else if (count === 0) {
+      cd.querySelector('div').textContent = 'GO!';
+      cd.querySelector('div').style.color = '#d4af37';
+    } else {
+      clearInterval(iv);
+      document.body.removeChild(cd);
+      state.roundRunning = true;
+      document.getElementById('timerContainer').classList.add('active');
+      nextTarget();
+    }
+  }, 700);
+}
+
+function nextTarget() {
+  if (currentTargetInRound >= targetsInRound) {
+    endRound();
+    return;
+  }
+  if (!state.roundRunning) return;
+
+  const area = document.getElementById('three-container');
+  const rect = area.getBoundingClientRect();
+  const aspect = rect.width / rect.height;
+  const viewH = 2 * Math.tan((camera.fov * Math.PI / 180) / 2) * camera.position.z;
+  const viewW = viewH * aspect;
+
+  const margin = 0.6;
+  const x = (Math.random() - 0.5) * (viewW - margin * 2);
+  const y = (Math.random() - 0.5) * (viewH - margin * 2);
+
+  const t = createTarget3D(x, y);
+  activeTargets.push(t);
+  state.targetActive = true;
+  currentTargetInRound++;
+
+  timerStart = Date.now();
+  document.getElementById('timerBar').style.width = '100%';
+  document.getElementById('timerContainer').classList.add('active');
+
+  if (state.timerId) clearTimeout(state.timerId);
+  state.timerId = setTimeout(() => {
+    if (state.targetActive && !t.hit && !t.missed) {
+      missTarget(t);
+    }
+  }, roundTimer);
+}
+
+function hitTarget(t) {
+  if (!state.targetActive || t.hit || t.missed) return;
+  state.targetActive = false;
+  clearTimeout(state.timerId);
+  t.hit = true;
+  state.hits++;
+  state.totalHits++;
+  state.score += 100 + Math.round((Date.now() - timerStart) / roundTimer * 50);
+  playHitSound();
+  updateScoreHUD();
+
+  spawnParticles(t.group.position.x, t.group.position.y, t.group.position.z);
+
+  // Animate hit
+  const origScale = t.group.scale.x;
+  const startTime = Date.now();
+  const hitAnim = () => {
+    const elapsed = (Date.now() - startTime) / 300;
+    if (elapsed >= 1) {
+      removeTarget(t);
+      nextTarget();
+      return;
+    }
+    const s = origScale * (1 + 0.5 * Math.sin(elapsed * Math.PI * 2) * (1 - elapsed));
+    t.group.scale.set(s, s, s);
+    t.sphere.material.emissiveIntensity = 2 * (1 - elapsed);
+    if (t.glow.material) t.glow.material.opacity = 0.6 * (1 - elapsed);
+    requestAnimationFrame(hitAnim);
+  };
+  hitAnim();
+}
+
+function missTarget(t) {
+  if (t.hit || t.missed) return;
+  state.targetActive = false;
+  t.missed = true;
+  state.misses++;
+  playMissSound();
+  document.getElementById('timerContainer').classList.remove('active');
+
+  const startTime = Date.now();
+  const missAnim = () => {
+    const elapsed = (Date.now() - startTime) / 400;
+    if (elapsed >= 1) {
+      removeTarget(t);
+      nextTarget();
+      return;
+    }
+    t.sphere.material.emissiveIntensity = 1.5 * (1 - elapsed);
+    t.ring.material.opacity = 0.4 * (1 - elapsed);
+    t.group.scale.set(
+      t.group.scale.x * 0.97,
+      t.group.scale.y * 0.97,
+      t.group.scale.z * 0.97
+    );
+    requestAnimationFrame(missAnim);
+  };
+  missAnim();
+}
+
+function removeTarget(t) {
+  t.group.traverse((node) => {
+    if (node.geometry) node.geometry.dispose();
+    if (node.material) node.material.dispose();
+  });
+  targetGroup.remove(t.group);
+  const idx = activeTargets.indexOf(t);
+  if (idx !== -1) activeTargets.splice(idx, 1);
+}
+
+function endRound() {
+  state.roundRunning = false;
+  document.getElementById('timerContainer').classList.remove('active');
+  document.getElementById('gameHint').textContent =
+    state.misses === 0 ? 'FLAWLESS, 007!' : 'WELL DONE, AGENT ROBIN';
+
+  setTimeout(() => {
+    state.round++;
+    startRound();
+  }, 1200);
+}
+
+function updateScoreHUD() {
+  document.getElementById('gameScore').textContent =
+    String(state.score).padStart(2, '0');
+}
+
+// ──────────────────────────────────────────────────────
+// COMMENDATION
+// ──────────────────────────────────────────────────────
+function showCommendation() {
+  state.phase = 'commendation';
+  state.roundRunning = false;
+  showHUD(false);
+  showOverlay('phase-commendation');
+  clearTargets();
+  renderCommendationCard();
+
+  if (state.totalHits > 0 && state.misses === 0) {
+    playFanfare();
+    setTimeout(() => showEasterEgg('DOUBLE 00 STATUS', 'Legendary'), 300);
+  }
+}
+
+function renderCommendationCard() {
+  const canvas = document.getElementById('commendationCanvas');
+  const rect = document.getElementById('commendationCard').getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.min(rect.width || 380, 420);
+  const h = Math.round(w * 3 / 4);
+
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#0d0d0d');
+  grad.addColorStop(0.4, '#1a0f0a');
+  grad.addColorStop(1, '#0a0a0a');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(10, 10, w - 20, h - 20);
+  ctx.strokeStyle = 'rgba(212,175,55,0.3)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(15, 15, w - 30, h - 30);
+
+  // Gun barrel watermark
+  ctx.save();
+  ctx.translate(w / 2, h / 2);
+  ctx.globalAlpha = 0.06;
+  ctx.beginPath();
+  ctx.arc(0, 0, Math.min(w, h) * 0.25, 0, Math.PI * 2);
+  ctx.fillStyle = '#8b0000';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(0, 0, Math.min(w, h) * 0.15, 0, Math.PI * 2);
+  ctx.fillStyle = '#000';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(0, 0, Math.min(w, h) * 0.08, 0, Math.PI * 2);
+  ctx.fillStyle = '#d4af37';
+  ctx.fill();
+  ctx.restore();
+
+  // TOP SECRET
+  ctx.save();
+  ctx.globalAlpha = 0.12;
+  ctx.translate(w - 55, 32);
+  ctx.rotate(-0.2);
+  ctx.fillStyle = '#ff0000';
+  ctx.font = '9px "Special Elite", monospace';
+  ctx.fillText('TOP SECRET', 0, 0);
+  ctx.restore();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#d4af37';
+  ctx.font = 'bold 15px "Cinzel Decorative", serif';
+  ctx.fillText('007', w / 2, 52);
+  ctx.font = 'bold 13px "Cinzel", serif';
+  ctx.fillText('AGENT ROBIN', w / 2, 74);
+
+  ctx.strokeStyle = 'rgba(212,175,55,0.5)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(w * 0.2, 88);
+  ctx.lineTo(w * 0.8, 88);
+  ctx.stroke();
+
+  ctx.fillStyle = '#fff';
+  ctx.font = '14px "Cinzel", serif';
+  ctx.fillText('22 YEARS', w / 2, 112);
+  ctx.fillStyle = '#d4af37';
+  ctx.font = '10px "Cinzel", serif';
+  ctx.fillText('BEST FATHER', w / 2, 130);
+
+  const totalPossible = ROUNDS.reduce((s, r) => s + r.count, 0);
+  const pct = totalPossible > 0 ? state.totalHits / totalPossible : 0;
+  let rank = 'ROOKIE';
+  let rankSub = '07 — Field Trainee';
+  if (state.totalHits > 0 && state.misses === 0 && state.totalHits >= totalPossible) {
+    rank = 'LEGENDARY';
+    rankSub = '00 — Double O';
+  } else if (pct >= 0.8) {
+    rank = 'ELITE';
+    rankSub = '00 — Senior Agent';
+  } else if (pct >= 0.6) {
+    rank = 'FIELD AGENT';
+    rankSub = '00 — Operative';
+  } else if (pct >= 0.4) {
+    rank = 'OPERATIVE';
+    rankSub = '07 — Junior Agent';
+  } else {
+    rank = 'RECRUIT';
+    rankSub = state.totalHits === 0 ? 'You showed up. That counts.' : '07 — Trainee';
+  }
+
+  ctx.fillStyle = '#d4af37';
+  ctx.font = 'bold 12px "Cinzel", serif';
+  ctx.fillText('CLASSIFICATION: ' + rank, w / 2, 158);
+  ctx.fillStyle = '#888';
+  ctx.font = '8px "Special Elite", monospace';
+  ctx.fillText(rankSub, w / 2, 172);
+  ctx.fillStyle = '#555';
+  ctx.font = '7px "Special Elite", monospace';
+  ctx.fillText('SCORE: ' + state.score + '  |  HITS: ' + state.totalHits + '/' + totalPossible, w / 2, 190);
+
+  ctx.fillStyle = 'rgba(212,175,55,0.5)';
+  ctx.font = '8px "Cinzel", serif';
+  ctx.fillText('HER MAJESTY\'S SECRET SERVICE', w / 2, h - 38);
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '9px "Special Elite", monospace';
+  const today = new Date();
+  ctx.fillText('Father\'s Day · ' + today.toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  }), w / 2, h - 20);
+
+  if (state.goldfingerUnlocked) {
+    ctx.save();
+    ctx.globalAlpha = 0.1;
+    ctx.fillStyle = '#ff0000';
+    ctx.font = '6px "Special Elite", monospace';
+    ctx.fillText('No, Mr. Bond, I expect you to die!', w / 2, h - 6);
+    ctx.restore();
+  }
+
+  window.cardDataURL = canvas.toDataURL('image/png');
+}
+
+// ──────────────────────────────────────────────────────
+// RAYCASTER
+// ──────────────────────────────────────────────────────
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onPointerDown(event) {
+  if (state.phase !== 'game' || !state.roundRunning || !state.targetActive) return;
+
+  const x = event.clientX ?? (event.touches ? event.touches[0].clientX : 0);
+  const y = event.clientY ?? (event.touches ? event.touches[0].clientY : 0);
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((x - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((y - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const meshes = [];
+  activeTargets.forEach(t => {
+    t.group.traverse(node => {
+      if (node.isMesh && node.geometry.type === 'SphereGeometry') meshes.push(node);
+    });
+  });
+
+  const intersects = raycaster.intersectObjects(meshes);
+  if (intersects.length > 0) {
+    const hitMesh = intersects[0].object;
+    const t = activeTargets.find(t => {
+      let found = false;
+      t.group.traverse(node => { if (node === hitMesh) found = true; });
+      return found;
+    });
+    if (t) hitTarget(t);
+
+    // Easter egg: every 7th hit
+    if (state.totalHits % 7 === 0 && !state.shakenComplete && state.totalHits > 0) {
+      state.shakenComplete = true;
+      showEasterEgg('SHAKEN', 'not stirred');
+      playMartiniToast();
+    }
+  }
+}
+
+document.addEventListener('click', onPointerDown);
+document.addEventListener('touchstart', onPointerDown);
+
+// ──────────────────────────────────────────────────────
+// EASTER EGGS
+// ──────────────────────────────────────────────────────
+function showEasterEgg(main, sub) {
+  const el = document.getElementById('easterEggToast');
+  el.innerHTML = main + (sub ? '<div class="sub">' + sub + '</div>' : '');
+  el.classList.add('show');
+  clearTimeout(el._hideTimer);
+  el._hideTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+document.addEventListener('keydown', (e) => {
+  state.keyBuffer.push(e.key);
+  if (state.keyBuffer.length > 5) state.keyBuffer.shift();
+  const seq = state.keyBuffer.join('').toLowerCase();
+  if (seq.includes('007')) {
+    state.isChillMode = true;
+    state.keyBuffer = [];
+    showEasterEgg('LICENSE TO CHILL', 'Easy mode activated');
+  }
+  if (seq.includes('shaken')) {
+    state.shakenComplete = true;
+    state.keyBuffer = [];
+    showEasterEgg('SHAKEN', 'not stirred');
+    playMartiniToast();
+  }
+});
+
+// Goldfinger: 7 clicks on title
+document.getElementById('phase-title').addEventListener('click', (e) => {
+  if (e.target.closest('.title-main')) {
+    state.goldfingerClicks++;
+    if (state.goldfingerClicks >= 7 && !state.goldfingerUnlocked) {
+      state.goldfingerUnlocked = true;
+      showEasterEgg('GOLDFINGER', 'No, Mr. Bond, I expect you to die!');
+    }
+  }
+});
+
+// Right-click on card
+document.getElementById('commendationCard').addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  const lines = [
+    'Shaken, not stirred.',
+    'Bond. James Bond.',
+    "The name's Robin. Agent Robin.",
+    'Never say never again.',
+    'For your eyes only.',
+    'You only live twice.',
+    'A martini. Dry. With a twist.',
+    'Licence to be a great dad.',
+    'Happy Father\'s Day, 007.',
+    'The world is not enough. But you are.',
+  ];
+  showEasterEgg(lines[Math.floor(Math.random() * lines.length)]);
+});
+
+// ──────────────────────────────────────────────────────
+// EXPOSED FUNCTIONS
+// ──────────────────────────────────────────────────────
+window.saveCard = function() {
+  if (!window.cardDataURL) renderCommendationCard();
+  const link = document.createElement('a');
+  link.download = 'agent-robin-007-fathers-day.png';
+  link.href = window.cardDataURL;
+  link.click();
+};
+
+window.replayGame = function() {
+  state.score = 0;
+  state.hits = 0;
+  state.misses = 0;
+  state.totalHits = 0;
+  state.totalTargets = 0;
+  state.round = 0;
+  state.roundRunning = false;
+  state.targetActive = false;
+  state.goldfingerClicks = 0;
+  state.goldfingerUnlocked = false;
+  state.shakenComplete = false;
+  state.isChillMode = false;
+  currentTargetInRound = 0;
+  targetsInRound = 0;
+  clearTimeout(state.timerId);
+  clearTargets();
+  particles = [];
+  startGame();
+};
+
+// ──────────────────────────────────────────────────────
+// RESIZE
+// ──────────────────────────────────────────────────────
+function onResize() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+}
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    onResize();
+    if (state.phase === 'commendation') renderCommendationCard();
+  }, 200);
+});
+
+// ──────────────────────────────────────────────────────
+// ANIMATION LOOP
+// ──────────────────────────────────────────────────────
+function animate() {
+  animFrameId = requestAnimationFrame(animate);
+  const now = Date.now();
+
+  // Rotate stars
+  stars.rotation.y += 0.0003;
+  stars.rotation.x += 0.0001;
+
+  // Title rings
+  if (state.phase === 'title') {
+    titleRings.forEach((r, i) => {
+      r.rotation.z += 0.005 * (i % 2 === 0 ? 1 : -1);
+      r.rotation.x = Math.PI / 3 + Math.sin(now * 0.001 + i) * 0.1;
+    });
+    // Subtle camera sway
+    camera.position.x = Math.sin(now * 0.0005) * 0.3;
+    camera.position.y = 0.5 + Math.sin(now * 0.0003) * 0.1;
+    camera.lookAt(0, 0, 0);
+  } else {
+    camera.position.x = 0;
+    camera.position.y = 0.5;
+    camera.lookAt(0, 0, 0);
+  }
+
+  // Animate targets
+  if (state.phase === 'game') {
+    activeTargets.forEach((t, i) => {
+      if (!t.hit && !t.missed) {
+        // Pulse
+        const pulse = 1 + Math.sin(now * 0.005 + i * 2) * 0.05;
+        t.sphere.scale.set(pulse, pulse, pulse);
+        // Glow pulse
+        if (t.glow.material) {
+          t.glow.material.opacity = 0.2 + Math.sin(now * 0.003 + i * 3) * 0.1;
+        }
+        // Ring rotation
+        t.ring.rotation.z += 0.02;
+      }
+    });
+
+    // Timer bar
+    if (state.targetActive && activeTargets.length > 0) {
+      const elapsed = Date.now() - timerStart;
+      const pct = Math.max(0, 1 - elapsed / roundTimer);
+      document.getElementById('timerBar').style.width = (pct * 100) + '%';
+    }
+  }
+
+  // Animate particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.age += 0.016;
+    const pos = p.points.geometry.attributes.position.array;
+    for (let j = 0; j < pos.length / 3; j++) {
+      pos[j*3] += p.velocities[j].x * 0.016;
+      pos[j*3+1] += p.velocities[j].y * 0.016;
+      pos[j*3+2] += p.velocities[j].z * 0.016;
+      p.velocities[j].x *= 0.98;
+      p.velocities[j].y *= 0.98;
+      p.velocities[j].z *= 0.98;
+    }
+    p.points.geometry.attributes.position.needsUpdate = true;
+    p.points.material.opacity = 1 - p.age / p.maxAge;
+    if (p.age >= p.maxAge) {
+      scene.remove(p.points);
+      p.points.geometry.dispose();
+      p.points.material.dispose();
+      particles.splice(i, 1);
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+
+// ──────────────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────────────
+animate();
+startTitle();
+</script>
+</body>
+</html>
