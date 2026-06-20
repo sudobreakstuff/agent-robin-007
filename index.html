@@ -6,436 +6,137 @@
 <title>007: Agent Robin — Father's Day Commendation</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel',serif;overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.stage{position:fixed;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center}
+.stage.active{display:flex}
 
-html, body {
-  width: 100%; height: 100%;
-  background: #0a0a0a;
-  color: #fff;
-  font-family: 'Cinzel', serif;
-  overflow: hidden;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.stage {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.stage.active { display: flex; }
-
-/* ── GUN BARREL ── */
-#stage-barrel {
-  background: #000;
-  z-index: 50;
-}
-.barrel-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.15);
-  animation: barrelPulse 1.2s ease-out forwards;
-  opacity: 0;
-}
-@keyframes barrelPulse {
-  0% { transform: scale(0); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: scale(8); opacity: 0; }
-}
-.barrel-ring:nth-child(1) {
-  width: 10vmin; height: 10vmin;
-  border-color: rgba(139,0,0,0.6);
-  animation-duration: 1.5s;
-}
-.barrel-ring:nth-child(2) {
-  width: 20vmin; height: 20vmin;
-  border-color: rgba(212,175,55,0.3);
-  animation-duration: 1.8s;
-  animation-delay: 0.1s;
-}
-.barrel-ring:nth-child(3) {
-  width: 30vmin; height: 30vmin;
-  border-color: rgba(255,255,255,0.15);
-  animation-duration: 2.1s;
-  animation-delay: 0.2s;
-}
-.barrel-ring:nth-child(4) {
-  width: 5vmin; height: 5vmin;
-  background: rgba(139,0,0,0.4);
-  border: none;
-  animation-duration: 1.2s;
-}
-.barrel-center {
-  position: absolute;
-  width: 3vmin; height: 3vmin;
-  border-radius: 50%;
-  background: radial-gradient(circle, #d4af37 0%, #8b0000 60%, #000 100%);
-  animation: barrelCenterIn 1.5s ease-out forwards;
-}
-@keyframes barrelCenterIn {
-  0% { transform: scale(0); opacity: 0; }
-  40% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
-}
-#stage-barrel .title-after {
-  opacity: 0;
-  position: absolute;
-  text-align: center;
-}
-#stage-barrel .title-after.show {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-#stage-barrel .title-after .main {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(1.6rem, 6vw, 3.5rem);
-  color: #d4af37;
-  text-shadow: 0 0 30px rgba(212,175,55,0.4);
-  letter-spacing: 0.15em;
-  line-height: 1.3;
-}
-#stage-barrel .title-after .sub {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.6rem, 2vw, 1rem);
-  color: #999;
-  margin-top: 0.6rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-}
-#stage-barrel .title-after .tap {
-  font-family: 'Special Elite', monospace;
-  font-size: clamp(0.5rem, 1.5vw, 0.75rem);
-  color: #555;
-  margin-top: 2rem;
-  animation: pulse 1.5s ease-in-out infinite;
-  letter-spacing: 0.2em;
-}
+/* ── TITLE ── */
+#stage-title{background:#000;z-index:50}
+.title-ring{position:absolute;border-radius:50%;border:2px solid rgba(255,255,255,0.08);animation:titleRingAnim 4s ease-in-out infinite}
+.title-ring:nth-child(1){width:30vmin;height:30vmin;animation-duration:4s}
+.title-ring:nth-child(2){width:45vmin;height:45vmin;animation-duration:5s;animation-delay:-0.5s;border-color:rgba(212,175,55,0.06)}
+.title-ring:nth-child(3){width:60vmin;height:60vmin;animation-duration:6s;animation-delay:-1s;border-color:rgba(139,0,0,0.08)}
+.title-ring:nth-child(4){width:75vmin;height:75vmin;animation-duration:7s;animation-delay:-1.5s}
+.title-dot{position:absolute;width:4vmin;height:4vmin;border-radius:50%;background:radial-gradient(circle,#d4af37,#8b0000);animation:titleDotPulse 2s ease-in-out infinite}
+@keyframes titleRingAnim{0%{transform:rotate(0deg) scale(1);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:rotate(360deg) scale(1.2);opacity:0}}
+@keyframes titleDotPulse{0%,100%{transform:scale(0.8);opacity:0.6}50%{transform:scale(1.2);opacity:1}}
+.title-main{position:absolute;text-align:center;opacity:0;z-index:2}
+.title-main.show{animation:titleReveal 1.2s ease-out forwards}
+@keyframes titleReveal{0%{opacity:0;transform:translateY(20px) scale(0.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.title-main .code{font-family:'Cinzel Decorative',serif;font-size:clamp(2.5rem,10vw,5rem);color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.3),0 0 80px rgba(212,175,55,0.1);letter-spacing:0.1em;line-height:1}
+.title-main .code span{font-size:0.35em;display:block;letter-spacing:0.4em;margin-top:-0.3rem}
+.title-main .agent{font-family:'Cinzel',serif;font-size:clamp(0.6rem,2.2vw,1.1rem);color:#999;margin-top:0.5rem;letter-spacing:0.35em;text-transform:uppercase}
+.title-main .name{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,4.5vw,2.2rem);color:#fff;margin-top:0.1rem;letter-spacing:0.25em;text-shadow:0 0 20px rgba(255,255,255,0.1)}
+.title-main .years{font-family:'Cinzel',serif;font-size:clamp(0.5rem,1.8vw,0.85rem);color:#d4af37;margin-top:0.8rem;letter-spacing:0.3em}
+.title-main .subtitle{font-family:'Cinzel',serif;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#666;margin-top:0.3rem;letter-spacing:0.25em}
+.title-main .tap{font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#444;margin-top:2rem;animation:pulse 1.5s ease-in-out infinite;letter-spacing:0.25em}
+.title-line{position:absolute;width:40vmin;height:1px;background:linear-gradient(90deg,transparent,#d4af37,transparent);opacity:0;z-index:2}
+.title-line.show{animation:titleLineIn 1s ease-out 0.3s forwards}
+@keyframes titleLineIn{0%{opacity:0;transform:scaleX(0)}100%{opacity:0.4;transform:scaleX(1)}}
 
 /* ── BRIEFING ── */
-#stage-briefing {
-  background: #0a0a0a;
-}
-.briefing-paper {
-  max-width: 520px;
-  width: 88%;
-  background: linear-gradient(135deg, #0d0d0d 0%, #111 100%);
-  border: 1px solid rgba(212,175,55,0.2);
-  border-radius: 6px;
-  padding: clamp(1rem, 3vw, 2rem);
-  position: relative;
-}
-.briefing-paper::before {
-  content: 'TOP SECRET';
-  position: absolute;
-  top: 12px; right: 14px;
-  font-family: 'Special Elite', monospace;
-  font-size: clamp(0.45rem, 1.2vw, 0.6rem);
-  color: rgba(139,0,0,0.4);
-  letter-spacing: 0.2em;
-  transform: rotate(3deg);
-}
-.briefing-paper .header {
-  text-align: center;
-  margin-bottom: 1.2rem;
-}
-.briefing-paper .header .code {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  color: #d4af37;
-  letter-spacing: 0.2em;
-}
-.briefing-paper .header .to {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.65rem, 1.8vw, 0.9rem);
-  color: #999;
-  margin-top: 0.3rem;
-  letter-spacing: 0.1em;
-}
-.briefing-paper .header .name {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(0.9rem, 2.5vw, 1.3rem);
-  color: #fff;
-  margin-top: 0.15rem;
-  letter-spacing: 0.3em;
-}
-.briefing-paper .body {
-  font-family: 'Special Elite', monospace;
-  font-size: clamp(0.6rem, 1.6vw, 0.8rem);
-  color: #bbb;
-  line-height: 1.7;
-  letter-spacing: 0.03em;
-}
-.briefing-paper .body .accent {
-  color: #d4af37;
-  font-family: 'Cinzel', serif;
-}
-.briefing-paper .body .highlight {
-  color: #fff;
-}
-.briefing-paper .footer {
-  margin-top: 1.2rem;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-.briefing-paper .footer.show { opacity: 1; }
-.briefing-paper .btn-accept {
-  background: transparent;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  padding: 0.5rem 2rem;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.55rem, 1.5vw, 0.75rem);
-  cursor: pointer;
-  letter-spacing: 0.2em;
-  transition: all 0.3s;
-  border-radius: 3px;
-}
-.briefing-paper .btn-accept:hover, .briefing-paper .btn-accept:active {
-  background: #d4af37;
-  color: #000;
-}
+#stage-briefing{background:radial-gradient(ellipse at center,#0d0d0d,#000)}
+.briefing-card{max-width:520px;width:88%;background:linear-gradient(135deg,#0d0d0d 0%,#111 100%);border:1px solid rgba(212,175,55,0.15);border-radius:8px;padding:clamp(1rem,3vw,2rem);position:relative}
+.briefing-card::before{content:'TOP SECRET';position:absolute;top:10px;right:12px;font-family:'Special Elite',monospace;font-size:clamp(0.4rem,1vw,0.55rem);color:rgba(139,0,0,0.3);letter-spacing:0.2em;transform:rotate(3deg)}
+.briefing-card .head{text-align:center;margin-bottom:1rem}
+.briefing-card .head .code{font-family:'Cinzel Decorative',serif;font-size:clamp(0.8rem,2.5vw,1.3rem);color:#d4af37;letter-spacing:0.2em}
+.briefing-card .head .to{font-size:clamp(0.5rem,1.5vw,0.75rem);color:#888;margin-top:0.15rem;letter-spacing:0.1em;font-family:'Cinzel',serif}
+.briefing-card .head .recipient{font-family:'Cinzel Decorative',serif;font-size:clamp(0.7rem,2.2vw,1.1rem);color:#fff;margin-top:0.1rem;letter-spacing:0.25em}
+.briefing-card .body{font-family:'Special Elite',monospace;font-size:clamp(0.5rem,1.4vw,0.75rem);color:#999;line-height:1.8;letter-spacing:0.02em}
+.briefing-card .body .g{color:#d4af37;font-family:'Cinzel',serif}
+.briefing-card .body .w{color:#fff}
+.briefing-card .signoff{margin-top:0.8rem;font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.3vw,0.65rem);color:#555;font-style:italic}
+.briefing-card .footer{margin-top:1.2rem;text-align:center;opacity:0;transition:opacity 0.5s}
+.briefing-card .footer.show{opacity:1}
+.briefing-card .btn{background:transparent;border:1px solid #d4af37;color:#d4af37;padding:0.5rem 2rem;font-family:'Cinzel',serif;font-size:clamp(0.5rem,1.5vw,0.7rem);cursor:pointer;letter-spacing:0.2em;transition:all 0.3s;border-radius:3px}
+.briefing-card .btn:hover,.briefing-card .btn:active{background:#d4af37;color:#000}
 
 /* ── GAME ── */
-#stage-game {
-  background: radial-gradient(ellipse at 50% 60%, #111 0%, #0a0a0a 100%);
-}
-.game-hud {
-  position: fixed;
-  top: 0; left: 0; width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  z-index: 10;
-}
-.game-hud .round { font-size: clamp(0.5rem, 1.5vw, 0.75rem); color: #666; letter-spacing: 0.15em; }
-.game-hud .score { font-size: clamp(0.7rem, 2vw, 0.9rem); color: #d4af37; font-family: 'Special Elite', monospace; }
-.game-area {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 5;
-}
-.game-target {
-  position: absolute;
-  width: 90px; height: 90px;
-  transform: translate(-50%, -50%);
-  cursor: crosshair;
-  z-index: 6;
-}
-.game-target .ring-outer {
-  position: absolute;
-  top: 2px; left: 2px; right: 2px; bottom: 2px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 15px rgba(255,255,255,0.1), inset 0 0 10px rgba(0,0,0,0.2);
-}
-.game-target .ring-mid {
-  position: absolute;
-  top: 15%; left: 15%; right: 15%; bottom: 15%;
-  border-radius: 50%;
-  background: #fff;
-}
-.game-target .ring-inner {
-  position: absolute;
-  top: 35%; left: 35%; right: 35%; bottom: 35%;
-  border-radius: 50%;
-  background: #cc0000;
-}
-.game-target .bullseye {
-  position: absolute;
-  top: 48%; left: 48%; right: 48%; bottom: 48%;
-  border-radius: 50%;
-  background: #ff0000;
-  box-shadow: 0 0 8px rgba(255,0,0,0.4);
-}
-.game-target.hit { pointer-events: none; }
-.game-target.hit .ring-outer {
-  animation: targetHit 0.45s ease-out forwards;
-}
-@keyframes targetHit {
-  0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(255,200,0,0); }
-  8% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 40px 10px rgba(255,200,0,0.6); background: #d4af37; }
-  30% { transform: scale(1.3); opacity: 0.8; }
-  100% { transform: scale(1.8); opacity: 0; box-shadow: 0 0 0 0 rgba(255,200,0,0); }
-}
-.game-target.missed { pointer-events: none; }
-.game-target.missed .ring-outer {
-  animation: targetMiss 0.35s ease-out forwards;
-}
-@keyframes targetMiss {
-  0% { opacity: 1; }
-  100% { opacity: 0; transform: scale(0.7); }
-}
-.game-progress {
-  position: fixed;
-  bottom: 2rem; left: 10%;
-  width: 80%;
-  height: 3px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 2px;
-  overflow: hidden;
-  z-index: 10;
-}
-.game-progress .bar {
-  height: 100%;
-  background: linear-gradient(90deg, #d4af37, #cc0000);
-  width: 100%;
-  border-radius: 2px;
-}
-.game-hint {
-  position: fixed;
-  bottom: 0.6rem;
-  width: 100%;
-  text-align: center;
-  font-size: clamp(0.45rem, 1.2vw, 0.6rem);
-  color: #444;
-  font-family: 'Special Elite', monospace;
-  letter-spacing: 0.15em;
-  z-index: 10;
-}
-.muzzle-flash {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 25;
-  background: radial-gradient(circle at center, rgba(255,200,80,0.25) 0%, rgba(255,200,80,0.05) 30%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.04s;
-}
-.muzzle-flash.active { opacity: 1; }
+#stage-game{background:radial-gradient(ellipse at 50% 60%,#111,#0a0a0a)}
+.game-hud{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.8rem;z-index:10}
+.game-hud .round{font-size:clamp(0.45rem,1.3vw,0.65rem);color:#555;letter-spacing:0.15em}
+.game-hud .score{font-size:clamp(0.6rem,2vw,0.9rem);color:#d4af37;font-family:'Special Elite',monospace}
+.game-area{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5}
+.game-target{position:absolute;width:86px;height:86px;transform:translate(-50%,-50%);cursor:crosshair;z-index:6}
+.game-target .to{position:absolute;top:3px;left:3px;right:3px;bottom:3px;border-radius:50%;background:#fff;box-shadow:0 0 20px rgba(255,255,255,0.06),inset 0 0 12px rgba(0,0,0,0.15)}
+.game-target .tm{position:absolute;top:17%;left:17%;right:17%;bottom:17%;border-radius:50%;background:radial-gradient(circle at 40% 40%,#fff,#ddd)}
+.game-target .ti{position:absolute;top:36%;left:36%;right:36%;bottom:36%;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ff4444,#bb0000)}
+.game-target .be{position:absolute;top:48%;left:48%;right:48%;bottom:48%;border-radius:50%;background:radial-gradient(circle at 40% 40%,#ff0000,#880000);box-shadow:0 0 6px rgba(255,0,0,0.3)}
+.game-target.hit{pointer-events:none}
+.game-target.hit .to{animation:targetHit 0.45s ease-out forwards}
+@keyframes targetHit{0%{transform:scale(1);opacity:1;box-shadow:0 0 0 0 rgba(255,200,0,0)}8%{transform:scale(1.1);opacity:1;box-shadow:0 0 50px 15px rgba(255,200,0,0.5);background:#d4af37}30%{transform:scale(1.4);opacity:0.8;box-shadow:0 0 30px 5px rgba(255,200,0,0.2)}100%{transform:scale(2);opacity:0;box-shadow:0 0 0 0 rgba(255,200,0,0)}}
+.game-target.missed{pointer-events:none}
+.game-target.missed .to{animation:targetMiss 0.35s ease-out forwards}
+@keyframes targetMiss{0%{opacity:1}100%{opacity:0;transform:scale(0.6)}}
+.game-progress{position:fixed;bottom:1.8rem;left:10%;width:80%;height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;z-index:10}
+.game-progress .bar{height:100%;background:linear-gradient(90deg,#d4af37,#cc0000);border-radius:2px}
+.game-hint{position:fixed;bottom:0.5rem;width:100%;text-align:center;font-size:clamp(0.4rem,1.2vw,0.55rem);color:#444;font-family:'Special Elite',monospace;letter-spacing:0.15em;z-index:10}
+.round-intro{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:20}
+.round-intro h2{font-family:'Cinzel Decorative',serif;color:#d4af37;font-size:clamp(1.2rem,4vw,2rem);letter-spacing:0.1em;text-shadow:0 0 20px rgba(212,175,55,0.3)}
+.round-intro p{color:#777;margin-top:0.3rem;font-size:clamp(0.5rem,1.5vw,0.75rem);font-family:'Special Elite',monospace}
+.round-intro .cd{font-size:clamp(2rem,8vw,4rem);color:#fff;margin-top:1.2rem;text-shadow:0 0 30px rgba(255,255,255,0.15);font-family:'Cinzel',serif}
+.muzzle-flash{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:25;background:radial-gradient(circle at center,rgba(255,220,100,0.35) 0%,rgba(255,200,50,0.1) 25%,transparent 60%);opacity:0;transition:opacity 0.04s}
+.muzzle-flash.active{opacity:1}
 
 /* ── COMMENDATION ── */
-#stage-commendation {
-  background: #000;
-  padding: 1rem;
-}
-.commendation-card {
-  max-width: 440px;
-  width: 95%;
-  position: relative;
-}
-.commendation-card canvas {
-  width: 100%; height: auto;
-  display: block;
-  border-radius: 6px;
-  box-shadow: 0 0 60px rgba(212,175,55,0.2);
-}
-.commendation-actions {
-  display: flex;
-  gap: 0.8rem;
-  margin-top: 1.2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.commendation-actions button {
-  background: transparent;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  padding: 0.5rem 1.2rem;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.5rem, 1.5vw, 0.7rem);
-  cursor: pointer;
-  letter-spacing: 0.15em;
-  transition: all 0.3s;
-  border-radius: 3px;
-}
-.commendation-actions button:hover, .commendation-actions button:active {
-  background: #d4af37;
-  color: #000;
-}
-.commendation-actions button.secondary {
-  border-color: #555;
-  color: #888;
-}
-.commendation-actions button.secondary:hover, .commendation-actions button.secondary:active {
-  border-color: #888;
-  color: #fff;
-  background: #222;
-}
-.commendation-hint {
-  font-family: 'Special Elite', monospace;
-  font-size: clamp(0.45rem, 1.2vw, 0.6rem);
-  color: #444;
-  margin-top: 0.5rem;
-  text-align: center;
-}
+#stage-commendation{background:radial-gradient(ellipse at center,#0a0a0a 0%,#000 100%);padding:0.5rem}
+#stage-commendation .card-wrap{width:95%;max-width:520px;position:relative;flex-shrink:0}
+#stage-commendation canvas{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 0 60px rgba(212,175,55,0.15)}
+.comm-actions{display:flex;gap:0.6rem;margin-top:0.8rem;flex-wrap:wrap;justify-content:center}
+.comm-actions button{background:transparent;border:1px solid #d4af37;color:#d4af37;padding:0.45rem 1.2rem;font-family:'Cinzel',serif;font-size:clamp(0.45rem,1.3vw,0.65rem);cursor:pointer;letter-spacing:0.15em;transition:all 0.3s;border-radius:3px}
+.comm-actions button:hover,.comm-actions button:active{background:#d4af37;color:#000}
+.comm-actions button.sec{border-color:#333;color:#555}
+.comm-actions button.sec:hover,.comm-actions button.sec:active{border-color:#555;color:#888;background:#111}
+.comm-hint{font-family:'Special Elite',monospace;font-size:clamp(0.4rem,1vw,0.55rem);color:#333;margin-top:0.4rem;text-align:center}
 
 /* ── TOAST ── */
-.easter-toast {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  font-family: 'Cinzel Decorative', serif;
-  color: #d4af37;
-  font-size: clamp(1.2rem, 5vw, 2.2rem);
-  text-shadow: 0 0 40px rgba(212,175,55,0.5);
-  pointer-events: none;
-  z-index: 100;
-  opacity: 0;
-  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  text-align: center;
-  padding: 1rem;
-}
-.easter-toast.show {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-.easter-toast .sub {
-  font-size: 0.45em;
-  color: #888;
-  font-family: 'Special Elite', monospace;
-  margin-top: 0.2rem;
-}
+.easter-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-family:'Cinzel Decorative',serif;color:#d4af37;font-size:clamp(1rem,4vw,2rem);text-shadow:0 0 40px rgba(212,175,55,0.4);pointer-events:none;z-index:100;opacity:0;transition:all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);text-align:center;padding:1rem}
+.easter-toast.show{transform:translate(-50%,-50%) scale(1);opacity:1}
+.easter-toast .sub{font-size:0.45em;color:#888;font-family:'Special Elite',monospace;margin-top:0.2rem}
 
 /* ── ANIMATIONS ── */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
-}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:0.25}50%{opacity:0.6}}
 </style>
 </head>
 <body>
 
-<!-- GUN BARREL -->
-<div id="stage-barrel" class="stage active">
-  <div class="barrel-ring"></div>
-  <div class="barrel-ring"></div>
-  <div class="barrel-ring"></div>
-  <div class="barrel-ring"></div>
-  <div class="barrel-center"></div>
-  <div class="title-after" id="titleAfter">
-    <div class="main">007<br><span style="font-size:0.65em;letter-spacing:0.35em;">AGENT</span> ROBIN</div>
-    <div class="sub">22 Years of Distinguished Fatherhood</div>
+<!-- TITLE -->
+<div id="stage-title" class="stage active">
+  <div class="title-ring"></div>
+  <div class="title-ring"></div>
+  <div class="title-ring"></div>
+  <div class="title-ring"></div>
+  <div class="title-dot"></div>
+  <div class="title-line" id="titleLine"></div>
+  <div class="title-main" id="titleMain">
+    <div class="code">007<span>AGENT</span></div>
+    <div class="agent">Presenting</div>
+    <div class="name">ROBIN</div>
+    <div class="years">22 YEARS OF DISTINGUISHED FATHERHOOD</div>
+    <div class="subtitle">A FATHER'S DAY COMMENDATION</div>
     <div class="tap">TAP TO BEGIN</div>
   </div>
 </div>
 
 <!-- BRIEFING -->
 <div id="stage-briefing" class="stage">
-  <div class="briefing-paper">
-    <div class="header">
+  <div class="briefing-card">
+    <div class="head">
       <div class="code">00</div>
       <div class="to">TO: Agent Robin 007</div>
-      <div class="name">CLASSIFIED</div>
+      <div class="recipient">CLASSIFIED MISSION BRIEF</div>
     </div>
-    <div class="body" id="briefingBody">
-      <p>After <span class="accent">22 years</span> of exemplary service — bedtime missions, school-run surveillance, unwavering protection — MI6 has identified you as, without question, the <span class="highlight">world's best father</span>.</p>
-      <br>
-      <p>Your final objective: complete the <span class="accent">Target Practice</span> exercise to unlock your official <span class="accent">Father's Day Commendation</span>.</p>
-      <br>
-      <p style="color:#666;">No pressure, 007. You've already earned it.</p>
+    <div class="body">
+      <p>Agent Robin,</p><br>
+      <p>After <span class="g">22 years</span> of exceptional service — from after-school extractions to covert bedtime negotiations, from unwavering protection to unconditional love — MI6 has identified you as, without question, the <span class="w">world's best father</span>.</p><br>
+      <p>Your family has submitted a formal nomination for the <span class="g">Father's Day Commendation</span>. To receive this honour, you must complete the standard marksmanship evaluation: <span class="g">three rounds</span> of target practice.</p><br>
+      <p style="color:#666">Between us, 007? This commendation was yours the day you became a dad.</p>
     </div>
-    <div class="footer" id="briefingFooter">
-      <button class="btn-accept" id="btnAccept">ACCEPT MISSION</button>
+    <div class="signoff">— M, Head of MI6</div>
+    <div class="footer" id="briefFooter">
+      <button class="btn" id="btnAccept">ACCEPT MISSION</button>
     </div>
   </div>
 </div>
@@ -443,71 +144,58 @@ html, body {
 <!-- GAME -->
 <div id="stage-game" class="stage">
   <div class="game-hud">
-    <span class="round" id="gameRound">TARGET PRACTICE</span>
+    <span class="round" id="gameRound">ROUND 1: STEADY AIM</span>
     <span class="score" id="gameScore">00</span>
   </div>
   <div class="game-area" id="gameArea"></div>
-  <div class="game-progress" id="gameProgress">
-    <div class="bar" id="gameProgressBar"></div>
-  </div>
-  <div class="game-hint" id="gameHint">Tap to shoot</div>
+  <div class="game-progress" id="gameProgress"><div class="bar" id="gameProgressBar" style="width:0%"></div></div>
+  <div class="game-hint" id="gameHint">Ready</div>
 </div>
 
 <!-- COMMENDATION -->
 <div id="stage-commendation" class="stage">
-  <div class="commendation-card" id="commendationCard">
-    <canvas id="commendationCanvas"></canvas>
+  <div class="card-wrap" id="cardWrap">
+    <canvas id="cardCanvas"></canvas>
   </div>
-  <div class="commendation-actions">
-    <button onclick="window.saveCard()">DOWNLOAD IMAGE</button>
-    <button onclick="window.replayGame()" class="secondary">PLAY AGAIN</button>
+  <div class="comm-actions">
+    <button onclick="window.saveCard()">DOWNLOAD</button>
+    <button onclick="window.replayGame()" class="sec">PLAY AGAIN</button>
   </div>
-  <div class="commendation-hint">Share with a screenshot</div>
+  <div class="comm-hint">Screenshot this to share on your status</div>
 </div>
 
-<!-- EASTER EGG TOAST -->
-<div class="easter-toast" id="easterToast"></div>
-
-<!-- MUZZLE FLASH -->
+<!-- OVERLAYS -->
 <div class="muzzle-flash" id="muzzleFlash"></div>
+<div class="easter-toast" id="easterToast"></div>
 
 <script>
 // ──────────────────────────────────────────────────────
-// AUDIO — Bond theme MP3 + sound effects
+// AUDIO
 // ──────────────────────────────────────────────────────
-let audioCtx = null;
-let masterGain = null;
-let reverbNode = null;
-let audioReady = false;
-let bgMusic = null;
-let bgMusicGain = null;
+let audioCtx = null, masterGain = null, reverbNode = null, audioReady = false;
+let bgMusic = null, bgMusicGain = null, gunshotBuf = null;
 
 function initAudio() {
   if (audioReady) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.35;
+  masterGain.gain.value = 0.4;
   masterGain.connect(audioCtx.destination);
 
   // Reverb
   const sr = audioCtx.sampleRate;
   const len = sr * 2.2;
-  const impulse = audioCtx.createBuffer(2, len, sr);
-  for (let ch = 0; ch < 2; ch++) {
-    const data = impulse.getChannelData(ch);
-    for (let i = 0; i < len; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.5);
-    }
-  }
+  const imp = audioCtx.createBuffer(2, len, sr);
+  for (let ch = 0; ch < 2; ch++) { const d = imp.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 3.5); }
   reverbNode = audioCtx.createConvolver();
-  reverbNode.buffer = impulse;
-  const reverbSend = audioCtx.createGain();
-  reverbSend.gain.value = 0.35;
-  reverbSend.connect(reverbNode);
+  reverbNode.buffer = imp;
+  const rs = audioCtx.createGain();
+  rs.gain.value = 0.3;
+  rs.connect(reverbNode);
   reverbNode.connect(masterGain);
-  audioCtx._reverbSend = reverbSend;
+  audioCtx._reverb = rs;
 
-  // Background music — the real Bond theme
+  // Bond theme
   try {
     bgMusic = new Audio('bond-theme.mp3');
     bgMusic.loop = true;
@@ -517,9 +205,10 @@ function initAudio() {
     bgMusicGain.gain.value = 0;
     src.connect(bgMusicGain);
     bgMusicGain.connect(audioCtx.destination);
-  } catch (e) {
-    console.warn('Could not load Bond theme:', e);
-  }
+  } catch(e) {}
+
+  // Gunshot
+  fetch('gunshot.mp3').then(r => r.arrayBuffer()).then(b => audioCtx.decodeAudioData(b)).then(b => { gunshotBuf = b; }).catch(()=>{});
 
   audioReady = true;
 }
@@ -530,8 +219,8 @@ function startMusic() {
     bgMusic.play();
     const now = audioCtx.currentTime;
     bgMusicGain.gain.setValueAtTime(0, now);
-    bgMusicGain.gain.linearRampToValueAtTime(0.3, now + 2.5);
-  } catch (e) {}
+    bgMusicGain.gain.linearRampToValueAtTime(0.25, now + 2.5);
+  } catch(e) {}
 }
 
 function fadeOutMusic(dur) {
@@ -539,163 +228,114 @@ function fadeOutMusic(dur) {
   try {
     const now = audioCtx.currentTime;
     bgMusicGain.gain.cancelScheduledValues(now);
-    bgMusicGain.gain.setValueAtTime(bgMusicGain.gain.value, now);
+    bgMusicGain.gain.setValueAtTime(bgMusicGain.gain.value || 0, now);
     bgMusicGain.gain.linearRampToValueAtTime(0, now + (dur || 1.5));
-    setTimeout(() => { try { bgMusic.pause(); } catch(e) {} }, (dur || 1.5) * 1000 + 100);
-  } catch (e) {}
+    setTimeout(() => { try { bgMusic.pause(); } catch(e) {} }, (dur || 1.5) * 1000 + 200);
+  } catch(e) {}
 }
 
-function connectWithReverb(source) {
-  const dry = audioCtx.createGain();
-  dry.gain.value = 0.5;
-  source.connect(dry);
-  dry.connect(masterGain);
-  const wet = audioCtx.createGain();
-  wet.gain.value = 0.7;
-  source.connect(wet);
-  wet.connect(audioCtx._reverbSend);
-}
-
-function playGunshot() {
-  if (!audioReady) return;
-  const now = audioCtx.currentTime;
-
-  // Crack — noise burst
-  const bufLen = Math.floor(audioCtx.sampleRate * 0.05);
-  const buf = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
-  const ch = buf.getChannelData(0);
-  for (let i = 0; i < bufLen; i++) {
-    ch[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufLen * 0.12));
-  }
-  const noise = audioCtx.createBufferSource();
-  noise.buffer = buf;
-  const ng = audioCtx.createGain();
-  ng.gain.setValueAtTime(0.3, now);
-  ng.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-  const hp = audioCtx.createBiquadFilter();
-  hp.type = 'highpass'; hp.frequency.value = 600;
-  noise.connect(hp); hp.connect(ng); ng.connect(masterGain);
-  noise.start(now);
-
-  // Boom — low thump
-  const boom = audioCtx.createOscillator();
-  const bg = audioCtx.createGain();
-  boom.type = 'sine';
-  boom.frequency.setValueAtTime(150, now);
-  boom.frequency.exponentialRampToValueAtTime(30, now + 0.15);
-  bg.gain.setValueAtTime(0.5, now);
-  bg.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-  boom.connect(bg);
-  bg.connect(masterGain);
-  const wet = audioCtx.createGain();
-  wet.gain.value = 0.3;
-  bg.connect(wet);
-  wet.connect(audioCtx._reverbSend);
-  boom.start(now);
-  boom.stop(now + 0.15);
-}
-
-function playMiss() {
-  if (!audioReady) return;
-  const now = audioCtx.currentTime;
-  const o = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  o.type = 'triangle';
-  o.frequency.setValueAtTime(300, now);
-  o.frequency.exponentialRampToValueAtTime(80, now + 0.2);
-  g.gain.setValueAtTime(0, now);
-  g.gain.linearRampToValueAtTime(0.04, now + 0.015);
-  g.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-  connectWithReverb(g);
-  o.connect(g);
-  o.start(now);
-  o.stop(now + 0.25);
-}
-
-function playMartini() {
-  if (!audioReady) return;
-  const now = audioCtx.currentTime;
-  [0, 0.03, 0.06, 0.09, 0.12].forEach((d, i) => {
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = 'sine';
-    o.frequency.value = 1000 + i * 600;
-    g.gain.setValueAtTime(0, now + d);
-    g.gain.linearRampToValueAtTime(0.035, now + d + 0.005);
-    g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.25);
-    connectWithReverb(g);
-    o.connect(g);
-    o.start(now + d);
-    o.stop(now + d + 0.25);
-  });
-}
-
-function muzzleFlash() {
-  const el = document.getElementById('muzzleFlash');
-  el.classList.add('active');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('active'), 50);
-}
-
-function ensureMusicVolume() {
+function ensureMusicVol() {
   if (!bgMusicGain) return;
   try {
     const now = audioCtx.currentTime;
     bgMusicGain.gain.cancelScheduledValues(now);
     const cur = bgMusicGain.gain.value;
     bgMusicGain.gain.setValueAtTime(cur, now);
-    if (cur < 0.2) {
-      bgMusicGain.gain.linearRampToValueAtTime(0.3, now + 1.5);
-    }
-  } catch (e) {}
+    if (cur < 0.15) bgMusicGain.gain.linearRampToValueAtTime(0.25, now + 1.5);
+  } catch(e) {}
+}
+
+function playGunshot() {
+  if (!gunshotBuf) return;
+  const src = audioCtx.createBufferSource();
+  src.buffer = gunshotBuf;
+  const g = audioCtx.createGain();
+  g.gain.value = 0.7;
+  src.connect(g);
+  g.connect(masterGain);
+  const w = audioCtx.createGain();
+  w.gain.value = 0.3;
+  src.connect(w);
+  w.connect(audioCtx._reverb);
+  src.start();
+}
+
+function playMiss() {
+  if (!audioReady) return;
+  const now = audioCtx.currentTime;
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.type = 'triangle'; o.frequency.setValueAtTime(200, now); o.frequency.exponentialRampToValueAtTime(60, now+0.15);
+  g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.03, now+0.01); g.gain.exponentialRampToValueAtTime(0.001, now+0.2);
+  o.connect(g); g.connect(masterGain);
+  const w = audioCtx.createGain(); w.gain.value = 0.3; g.connect(w); w.connect(audioCtx._reverb);
+  o.start(now); o.stop(now+0.2);
+}
+
+function playMartini() {
+  if (!audioReady) return;
+  const now = audioCtx.currentTime;
+  [0,0.03,0.06,0.09,0.12].forEach((d,i)=>{
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type='sine'; o.frequency.value=1000+i*600;
+    g.gain.setValueAtTime(0,now+d); g.gain.linearRampToValueAtTime(0.03,now+d+0.005); g.gain.exponentialRampToValueAtTime(0.001,now+d+0.25);
+    const w=audioCtx.createGain(); w.gain.value=0.4; g.connect(w); w.connect(audioCtx._reverb);
+    o.connect(g); g.connect(masterGain);
+    o.start(now+d); o.stop(now+d+0.25);
+  });
+}
+
+function muzzleFlash() {
+  const el=document.getElementById('muzzleFlash');
+  el.classList.add('active'); clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('active'), 50);
 }
 
 // ──────────────────────────────────────────────────────
 // STATE
 // ──────────────────────────────────────────────────────
 const S = {
-  stage: 'barrel',
-  score: 0,
-  hits: 0,
-  misses: 0,
-  totalTargets: 0,
-  targetActive: false,
-  targetEl: null,
-  timerId: null,
-  targetCount: 0,
-  maxTargets: 5,
-  isChillMode: false,
-  keyBuf: [],
-  gfClicks: 0,
-  gfUnlocked: false,
-  shakenDone: false,
+  stage:'title', score:0, hits:0, misses:0, totalHits:0, totalTargets:0,
+  round:0, targetActive:false, targetEl:null, timerId:null, targetCount:0,
+  roundTargets:0, roundRunning:false,
+  isChill:false, keyBuf:[], gfClicks:0, gfUnlocked:false, shakenDone:false,
 };
+const ROUNDS = [
+  { name:'STEADY AIM', count:5, time:5000, sub:'Take your time, 007' },
+  { name:'SPEED LOAD', count:8, time:3500, sub:'Quick hands, steady eyes' },
+  { name:'FINAL STAND', count:10, time:2500, sub:'No pressure, Agent Robin' },
+];
 
-const TARGET_TIME = 5000;
-
-// ──────────────────────────────────────────────────────
-// STAGES
-// ──────────────────────────────────────────────────────
 function showStage(id) {
-  document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.stage').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  S.stage = id.replace('stage-', '');
+  S.stage = id.replace('stage-','');
 }
 
 // ──────────────────────────────────────────────────────
-// BARREL
+// TITLE
 // ──────────────────────────────────────────────────────
-function startBarrel() {
-  showStage('stage-barrel');
-  const titleEl = document.getElementById('titleAfter');
-  document.getElementById('stage-barrel').addEventListener('click', function onTap() {
-    this.removeEventListener('click', onTap);
+function startTitle() {
+  showStage('stage-title');
+  const titleMain = document.getElementById('titleMain');
+  const titleLine = document.getElementById('titleLine');
+
+  // Auto-reveal title after a moment
+  setTimeout(() => {
+    titleMain.classList.add('show');
+    titleLine.classList.add('show');
+  }, 1200);
+
+  // Tap to start
+  document.getElementById('stage-title').addEventListener('click', function onStart() {
+    this.removeEventListener('click', onStart);
+    // If the title hasn't appeared yet, force it
+    if (!titleMain.classList.contains('show')) {
+      titleMain.classList.add('show');
+      titleLine.classList.add('show');
+    }
     initAudio();
     startMusic();
-    titleEl.classList.add('show');
-    setTimeout(() => {
-      startBriefing();
-    }, 1200);
+    setTimeout(() => startBriefing(), 800);
   }, { once: true });
 }
 
@@ -704,193 +344,168 @@ function startBarrel() {
 // ──────────────────────────────────────────────────────
 function startBriefing() {
   showStage('stage-briefing');
-  setTimeout(() => {
-    document.getElementById('briefingFooter').classList.add('show');
-  }, 600);
-  document.getElementById('btnAccept').addEventListener('click', () => {
-    startGame();
-  }, { once: true });
+  setTimeout(() => document.getElementById('briefFooter').classList.add('show'), 500);
+  document.getElementById('btnAccept').addEventListener('click', () => startGame(), { once: true });
 }
 
 // ──────────────────────────────────────────────────────
 // GAME
 // ──────────────────────────────────────────────────────
 function startGame() {
-  S.score = 0;
-  S.hits = 0;
-  S.misses = 0;
-  S.totalTargets = 0;
-  S.targetCount = 0;
-  S.maxTargets = 5;
-  S.targetActive = false;
+  S.score=0; S.hits=0; S.misses=0; S.totalHits=0; S.totalTargets=0;
+  S.round=0; S.targetActive=false; S.roundRunning=false;
+  document.getElementById('gameArea').innerHTML = '';
+  ensureMusicVol();
+  startRound();
+}
 
-  showStage('stage-game');
-  document.getElementById('gameRound').textContent = 'TARGET PRACTICE';
-  document.getElementById('gameScore').textContent = '00';
-  document.getElementById('gameHint').textContent = 'Get ready...';
+function startRound() {
+  if (S.round >= 3) { showCommendation(); return; }
+  const r = ROUNDS[S.round];
+  S.targetCount = 0;
+  S.roundTargets = r.count;
+  S.roundRunning = false;
+
   document.getElementById('gameProgressBar').style.width = '0%';
 
-  ensureMusicVolume();
+  // Round intro overlay
+  const area = document.getElementById('gameArea');
+  const intro = document.createElement('div');
+  intro.className = 'round-intro';
+  intro.innerHTML = `<h2>${r.name}</h2><p>${r.sub}</p><div class="cd">3</div>`;
+  area.appendChild(intro);
 
-  setTimeout(() => {
-    spawnTarget();
-  }, 800);
+  let cd = 3;
+  const cdEl = intro.querySelector('.cd');
+  const iv = setInterval(() => {
+    cd--;
+    if (cd > 0) cdEl.textContent = cd;
+    else if (cd === 0) { cdEl.textContent = 'GO!'; cdEl.style.color = '#d4af37'; }
+    else {
+      clearInterval(iv);
+      area.removeChild(intro);
+      S.roundRunning = true;
+      document.getElementById('gameRound').textContent = `ROUND ${S.round+1}: ${r.name}`;
+      document.getElementById('gameHint').textContent = `Target ${S.targetCount+1} of ${S.roundTargets}`;
+      spawnTarget();
+    }
+  }, 700);
 }
 
 function spawnTarget() {
-  if (S.targetCount >= S.maxTargets) {
-    endGame();
-    return;
-  }
+  if (S.targetCount >= S.roundTargets) { endRound(); return; }
 
   const area = document.getElementById('gameArea');
   const rect = area.getBoundingClientRect();
-  const size = 90;
-
-  const x = size + Math.random() * (rect.width - size * 2);
-  const y = size + Math.random() * (rect.height - size * 3.5);
+  const sz = 86;
+  const x = sz + Math.random() * (rect.width - sz * 2);
+  const y = sz + Math.random() * (rect.height - sz * 3.5);
 
   const el = document.createElement('div');
   el.className = 'game-target';
-  el.innerHTML = `
-    <div class="ring-outer">
-      <div class="ring-mid">
-        <div class="ring-inner">
-          <div class="bullseye"></div>
-        </div>
-      </div>
-    </div>
-  `;
-  el.style.left = x + 'px';
-  el.style.top = y + 'px';
+  el.innerHTML = '<div class="to"><div class="tm"><div class="ti"><div class="be"></div></div></div></div>';
+  el.style.left = x + 'px'; el.style.top = y + 'px';
   area.appendChild(el);
 
-  S.targetActive = true;
-  S.targetEl = el;
-  S.targetCount++;
+  S.targetActive = true; S.targetEl = el;
+  const targetIdx = S.targetCount++;
+  document.getElementById('gameHint').textContent = `Target ${targetIdx+1} of ${S.roundTargets}`;
 
-  const time = S.isChillMode ? TARGET_TIME * 1.8 : TARGET_TIME;
+  const r = ROUNDS[S.round];
+  const time = S.isChill ? r.time * 1.8 : r.time;
 
-  // Pulsing animation — speeds up as time runs out
+  // Pulsing
   const pulseStart = Date.now();
-  function pulseLoop() {
+  let pulseId;
+  function pulse() {
     if (!S.targetActive || el.classList.contains('hit') || el.classList.contains('missed')) return;
-    const elapsed = Date.now() - pulseStart;
-    const pct = elapsed / time;
-    const speed = 0.003 + pct * 0.015;
-    const p = 1 + Math.sin(elapsed * speed) * (0.04 + pct * 0.04);
-    el.style.transform = `translate(-50%, -50%) scale(${p})`;
-    requestAnimationFrame(pulseLoop);
+    const e = Date.now() - pulseStart;
+    const pct = e / time;
+    const spd = 0.003 + pct * 0.018;
+    const s = 1 + Math.sin(e * spd) * (0.03 + pct * 0.05);
+    el.style.transform = `translate(-50%,-50%) scale(${s})`;
+    pulseId = requestAnimationFrame(pulse);
   }
-  requestAnimationFrame(pulseLoop);
+  pulse();
 
   // Progress bar
   const startTime = Date.now();
-  const progressBar = document.getElementById('gameProgressBar');
-  progressBar.style.width = '0%';
+  const pb = document.getElementById('gameProgressBar');
+  const pInt = setInterval(() => {
+    if (!S.targetActive || el.classList.contains('hit') || el.classList.contains('missed')) { clearInterval(pInt); return; }
+    pb.style.width = Math.min(100, (Date.now()-startTime)/time*100) + '%';
+  }, 50);
 
-  const tpH = (e) => {
+  const hit = (e) => {
     e.preventDefault();
     if (!S.targetActive || el.classList.contains('hit') || el.classList.contains('missed')) return;
-    clearTimeout(S.timerId);
-    hitTarget(el, startTime, time);
+    clearTimeout(S.timerId); clearInterval(pInt);
+    cancelAnimationFrame(pulseId);
+    hitTarget(el, startTime, time, targetIdx);
   };
-  el.addEventListener('click', tpH);
-  el.addEventListener('touchstart', tpH, { passive: false });
+  el.addEventListener('click', hit);
+  el.addEventListener('touchstart', hit, { passive: false });
 
-  // Hint
-  document.getElementById('gameHint').textContent =
-    'Target ' + S.targetCount + ' of ' + S.maxTargets;
-
-  // Timer
   S.timerId = setTimeout(() => {
     if (S.targetActive && !el.classList.contains('hit')) {
+      clearInterval(pInt); cancelAnimationFrame(pulseId);
       missTarget(el);
     }
   }, time);
-
-  // Animate progress
-  let lastProgress = 0;
-  const progInterval = setInterval(() => {
-    if (!S.targetActive || el.classList.contains('hit') || el.classList.contains('missed')) {
-      clearInterval(progInterval);
-      return;
-    }
-    const elapsed = Date.now() - startTime;
-    const pct = Math.min(100, (elapsed / time) * 100);
-    lastProgress = pct;
-    progressBar.style.width = pct + '%';
-  }, 50);
 }
 
 function hitTarget(el, startTime, time) {
   S.targetActive = false;
-  clearTimeout(S.timerId);
   el.classList.add('hit');
-  S.hits++;
-  S.totalTargets++;
-  const speedBonus = Math.round((1 - (Date.now() - startTime) / time) * 50);
-  S.score += 100 + speedBonus;
+  S.hits++; S.totalHits++;
+  S.score += 100 + Math.round((1 - (Date.now()-startTime)/time) * 50);
   playGunshot();
   muzzleFlash();
   updateScore();
 
-  // Shaken egg
-  if (S.totalTargets % 7 === 0 && !S.shakenDone) {
-    S.shakenDone = true;
-    showToast('SHAKEN', 'not stirred');
-    playMartini();
-  }
+  if (S.totalHits % 7 === 0 && !S.shakenDone) { S.shakenDone = true; showToast('SHAKEN','not stirred'); playMartini(); }
 
-  setTimeout(() => {
-    if (el.parentNode) el.parentNode.removeChild(el);
-    spawnTarget();
-  }, 350);
+  setTimeout(() => { if(el.parentNode)el.parentNode.removeChild(el); spawnTarget(); }, 350);
 }
 
 function missTarget(el) {
   S.targetActive = false;
-  clearTimeout(S.timerId);
   el.classList.add('missed');
   S.misses++;
   playMiss();
-
-  setTimeout(() => {
-    if (el.parentNode) el.parentNode.removeChild(el);
-    spawnTarget();
-  }, 350);
+  setTimeout(() => { if(el.parentNode)el.parentNode.removeChild(el); spawnTarget(); }, 350);
 }
 
 function updateScore() {
-  document.getElementById('gameScore').textContent =
-    String(S.score).padStart(2, '0');
+  document.getElementById('gameScore').textContent = String(S.score).padStart(2,'0');
 }
 
-function endGame() {
-  fadeOutMusic(0.8);
-  document.getElementById('gameHint').textContent =
-    S.misses === 0 ? 'PERFECT, 007!' : 'MISSION COMPLETE, AGENT ROBIN';
-  document.getElementById('gameProgressBar').style.width = '100%';
-  setTimeout(showCommendation, 1000);
+function endRound() {
+  S.roundRunning = false;
+  document.getElementById('gameHint').textContent = S.misses === 0 ? 'FLAWLESS!' : 'WELL DONE, 007';
+  setTimeout(() => {
+    S.round++;
+    startRound();
+  }, 1000);
 }
 
 // ──────────────────────────────────────────────────────
-// COMMENDATION
+// COMMENDATION CARD
 // ──────────────────────────────────────────────────────
 function showCommendation() {
+  fadeOutMusic(1.2);
   showStage('stage-commendation');
   renderCard();
-  if (S.misses === 0 && S.totalTargets > 0) {
-    setTimeout(() => showToast('DOUBLE 00 STATUS', 'Legendary'), 400);
-  }
+  if (S.misses === 0 && S.totalHits > 0)
+    setTimeout(() => showToast('DOUBLE 00 — LEGENDARY'), 500);
 }
 
 function renderCard() {
-  const canvas = document.getElementById('commendationCanvas');
-  const card = document.getElementById('commendationCard');
-  const rect = card.getBoundingClientRect();
+  const canvas = document.getElementById('cardCanvas');
+  const wrap = document.getElementById('cardWrap');
+  const rect = wrap.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
-  const w = Math.min(rect.width || 400, 440);
+  const w = Math.min(rect.width || 480, 520);
   const h = Math.round(w * 3 / 4);
 
   canvas.width = w * dpr;
@@ -901,198 +516,115 @@ function renderCard() {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  // Background with slight texture
-  const bg = ctx.createLinearGradient(0, 0, 0, h);
-  bg.addColorStop(0, '#0d0d0d');
-  bg.addColorStop(0.3, '#0f0a08');
-  bg.addColorStop(0.7, '#080605');
-  bg.addColorStop(1, '#050505');
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, w, h);
+  // Background
+  const bg = ctx.createLinearGradient(0,0,0,h);
+  bg.addColorStop(0,'#0d0d0d'); bg.addColorStop(0.3,'#0f0a08'); bg.addColorStop(0.7,'#080605'); bg.addColorStop(1,'#050505');
+  ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
 
-  // Outer border with gold corner accents
-  ctx.strokeStyle = '#d4af37';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(10, 10, w - 20, h - 20);
+  // Outer border
+  ctx.strokeStyle = '#d4af37'; ctx.lineWidth = 2; ctx.strokeRect(8,8,w-16,h-16);
 
   // Corner ornaments
-  const cSize = 14;
-  const corners = [[10, 10], [w-10, 10], [w-10, h-10], [10, h-10]];
-  corners.forEach(([cx, cy]) => {
-    ctx.strokeStyle = '#d4af37';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(cx - cSize, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy - cSize);
-    ctx.stroke();
-  });
+  const cs = 12; const corners=[[8,8],[w-8,8],[w-8,h-8],[8,h-8]];
+  corners.forEach(([cx,cy]) => { ctx.strokeStyle='#d4af37'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(cx-cs,cy); ctx.lineTo(cx,cy); ctx.lineTo(cx,cy-cs); ctx.stroke(); });
 
   // Inner border
-  ctx.strokeStyle = 'rgba(212,175,55,0.2)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(16, 16, w - 32, h - 32);
+  ctx.strokeStyle = 'rgba(212,175,55,0.15)'; ctx.lineWidth = 1; ctx.strokeRect(14,14,w-28,h-28);
 
-  // Watermark: large faint 007
-  ctx.save();
-  ctx.globalAlpha = 0.03;
-  ctx.fillStyle = '#d4af37';
-  ctx.font = `bold ${w * 0.3}px "Cinzel Decorative", serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('007', w / 2, h / 2);
+  // Faint 007 watermark
+  ctx.save(); ctx.globalAlpha=0.025; ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.35}px "Cinzel Decorative",serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('007',w/2,h/2); ctx.restore();
+
+  // MI6 crest
+  ctx.save(); ctx.globalAlpha=0.05; const cx=w/2-50,cyo=35;
+  ctx.beginPath(); ctx.arc(cx,cyo,w*0.06,0,Math.PI*2); ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cyo,w*0.03,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cyo,3,0,Math.PI*2); ctx.fillStyle='#d4af37'; ctx.fill();
   ctx.restore();
 
-  // Watermark: MI6 crest (simple circle)
-  ctx.save();
-  ctx.globalAlpha = 0.06;
-  const cx = w / 2, cy = h / 2 - 10;
-  ctx.beginPath();
-  ctx.arc(cx, cy, w * 0.12, 0, Math.PI * 2);
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(cx, cy, w * 0.06, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-  ctx.fillStyle = '#d4af37';
-  ctx.fill();
-  ctx.restore();
+  // TOP SECRET
+  ctx.save(); ctx.globalAlpha=0.08; ctx.translate(w-60,28); ctx.rotate(-0.15); ctx.fillStyle='#cc0000'; ctx.font='7px "Special Elite",monospace'; ctx.fillText('TOP SECRET',0,0); ctx.restore();
 
-  // TOP SECRET stamp
-  ctx.save();
-  ctx.globalAlpha = 0.1;
-  ctx.translate(w - 65, 32);
-  ctx.rotate(-0.15);
-  ctx.fillStyle = '#cc0000';
-  ctx.font = '8px "Special Elite", monospace';
-  ctx.fillText('TOP SECRET', 0, 0);
-  ctx.restore();
+  ctx.textAlign='center'; ctx.textBaseline='middle';
 
-  // ── HEADER ──
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  // HEADER
+  ctx.fillStyle='rgba(212,175,55,0.4)'; ctx.font='6px "Cinzel",serif'; ctx.fillText('HER MAJESTY\'S SECRET SERVICE',w/2,32);
+  ctx.strokeStyle='rgba(212,175,55,0.2)'; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(w*0.15,42); ctx.lineTo(w*0.85,42); ctx.stroke();
 
-  ctx.fillStyle = 'rgba(212,175,55,0.4)';
-  ctx.font = '7px "Cinzel", serif';
-  ctx.fillText('HER MAJESTY\'S SECRET SERVICE', w / 2, 35);
+  // TITLE
+  ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.042}px "Cinzel Decorative",serif`; ctx.fillText('FATHER\'S DAY',w/2,58);
+  ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.font=`${w*0.025}px "Cinzel",serif`; ctx.fillText('COMMENDATION',w/2,73);
 
-  // Separator
-  ctx.strokeStyle = 'rgba(212,175,55,0.3)';
-  ctx.lineWidth = 0.5;
-  ctx.beginPath();
-  ctx.moveTo(w * 0.15, 44);
-  ctx.lineTo(w * 0.85, 44);
-  ctx.stroke();
+  // SEPARATOR
+  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(w*0.08,85); ctx.lineTo(w*0.92,85); ctx.stroke();
 
-  // ── TITLE ──
-  ctx.fillStyle = '#d4af37';
-  ctx.font = `bold ${w * 0.045}px "Cinzel Decorative", serif`;
-  ctx.fillText('FATHER\'S DAY', w / 2, 62);
+  // PRESENTED TO
+  ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.font=`${w*0.022}px "Cinzel",serif`; ctx.fillText('Presented to',w/2,100);
 
-  ctx.fillStyle = 'rgba(255,255,255,0.5)';
-  ctx.font = `${w * 0.028}px "Cinzel", serif`;
-  ctx.fillText('COMMENDATION', w / 2, 78);
+  // NAME
+  ctx.fillStyle='#fff'; ctx.font=`bold ${w*0.048}px "Cinzel",serif`; ctx.fillText('AGENT ROBIN 007',w/2,122);
 
-  // ── NAME ──
-  ctx.fillStyle = '#fff';
-  ctx.font = `bold ${w * 0.055}px "Cinzel", serif`;
-  ctx.fillText('AGENT ROBIN 007', w / 2, 108);
+  // SEPARATOR
+  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.beginPath(); ctx.moveTo(w*0.15,138); ctx.lineTo(w*0.85,138); ctx.stroke();
 
-  // ── BODY ──
-  const bodyY = 136;
-  const bodySize = w * 0.028;
-  ctx.fillStyle = 'rgba(255,255,255,0.65)';
-  ctx.font = `${bodySize}px "Special Elite", monospace`;
-
-  const lines = [
-    'For 22 years of extraordinary service as',
-    'a father — for bedtime stories, school runs,',
-    'unwavering protection, and boundless love —',
-    'you are hereby recognized as',
+  // RECOGNITION TEXT
+  const bodyS = w * 0.024;
+  ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.font=`${bodyS}px "Special Elite",monospace`;
+  const bodyLines = [
+    'For 22 years of extraordinary service',
+    'as a father — for bedtime stories,',
+    'school runs, scraped knees, and',
+    'unwavering love — you are hereby',
+    'recognised as',
   ];
-  lines.forEach((line, i) => {
-    ctx.fillText(line, w / 2, bodyY + i * (bodySize * 1.7));
-  });
+  let by = 154;
+  bodyLines.forEach((l,i) => { ctx.fillText(l,w/2,by + i*bodyS*1.6); });
 
-  // ── BEST FATHER ──
-  ctx.fillStyle = '#d4af37';
-  ctx.font = `bold ${w * 0.042}px "Cinzel Decorative", serif`;
-  const bfY = bodyY + lines.length * (bodySize * 1.7) + 6;
-  ctx.fillText('THE WORLD\'S BEST FATHER', w / 2, bfY);
+  // BEST FATHER
+  by += bodyLines.length * bodyS * 1.6 + 4;
+  ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.038}px "Cinzel Decorative",serif`;
+  ctx.fillText('THE WORLD\'S BEST FATHER',w/2,by);
 
-  // ── CLASSIFICATION ──
-  const pct = S.maxTargets > 0 ? S.totalTargets / S.maxTargets : 0;
-  let rank = '07 — Rookie Agent';
+  // CLASSIFICATION
+  const totalPossible = ROUNDS.reduce((s,r) => s+r.count, 0);
+  const pct = totalPossible > 0 ? S.totalHits / totalPossible : 0;
+  let rank = '07 — Honourary Dad';
   let rankColor = '#666';
-  if (S.totalTargets > 0 && S.misses === 0 && S.totalTargets >= S.maxTargets) {
-    rank = '00 — Legendary Agent';
-    rankColor = '#d4af37';
-  } else if (pct >= 0.8) {
-    rank = '00 — Elite Agent';
-    rankColor = '#d4af37';
-  } else if (pct >= 0.6) {
-    rank = '00 — Senior Operative';
-    rankColor = '#d4af37';
-  } else if (pct >= 0.4) {
-    rank = '07 — Field Operative';
-    rankColor = '#999';
-  } else {
-    rank = S.totalTargets === 0 ? '07 — Honourary Dad' : '07 — Junior Operative';
-    rankColor = '#666';
-  }
+  if (S.totalHits > 0 && S.misses === 0 && S.totalHits >= totalPossible) {
+    rank = '00 — Legendary Agent'; rankColor = '#d4af37';
+  } else if (pct >= 0.8) { rank = '00 — Elite Agent'; rankColor = '#d4af37';
+  } else if (pct >= 0.6) { rank = '00 — Senior Operative'; rankColor = '#d4af37';
+  } else if (pct >= 0.4) { rank = '07 — Field Operative'; rankColor = '#999';
+  } else { rank = S.totalHits === 0 ? '07 — Honourary Dad' : '07 — Junior Operative'; rankColor = '#666'; }
 
-  ctx.fillStyle = 'rgba(255,255,255,0.2)';
-  ctx.font = `${bodySize * 0.9}px "Cinzel", serif`;
-  ctx.fillText('CLASSIFICATION', w / 2, bfY + 30);
-  ctx.fillStyle = rankColor;
-  ctx.font = `bold ${bodySize * 1.2}px "Cinzel", serif`;
-  ctx.fillText(rank, w / 2, bfY + 48);
+  ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.font=`${bodyS*0.85}px "Cinzel",serif`;
+  ctx.fillText('CLASSIFICATION', w/2, by + 26);
+  ctx.fillStyle=rankColor; ctx.font=`bold ${bodyS*1.2}px "Cinzel",serif`;
+  ctx.fillText(rank, w/2, by + 43);
 
-  // ── SCORE ──
-  ctx.fillStyle = 'rgba(255,255,255,0.15)';
-  ctx.font = `${bodySize * 0.75}px "Special Elite", monospace`;
-  ctx.fillText('SCORE: ' + S.score + '  |  HITS: ' + S.totalTargets + '/' + S.maxTargets, w / 2, bfY + 68);
+  // SCORE
+  ctx.fillStyle='rgba(255,255,255,0.1)'; ctx.font=`${bodyS*0.7}px "Special Elite",monospace`;
+  ctx.fillText('SCORE: '+S.score+'  |  HITS: '+S.totalHits+'/'+totalPossible, w/2, by + 62);
 
-  // ── FOOTER ──
-  ctx.fillStyle = 'rgba(212,175,55,0.35)';
-  ctx.font = '7px "Cinzel", serif';
-  ctx.fillText('MI6 · FATHER\'S DAY ' + new Date().getFullYear(), w / 2, h - 28);
+  // SIGNATURE
+  const sigY = h - 42;
+  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(w*0.12,sigY); ctx.lineTo(w*0.4,sigY); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.font='4.5px "Special Elite",monospace'; ctx.textAlign='center';
+  ctx.fillText('M', (w*0.12+w*0.4)/2, sigY+8);
+  ctx.strokeStyle='rgba(212,175,55,0.15)';
+  ctx.beginPath(); ctx.moveTo(w*0.6,sigY); ctx.lineTo(w*0.88,sigY); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.fillText('Head of MI6', (w*0.6+w*0.88)/2, sigY+8);
+  ctx.textAlign='center';
 
-  ctx.fillStyle = 'rgba(255,255,255,0.08)';
-  ctx.font = '6px "Special Elite", monospace';
-  ctx.fillText('This commendation is awarded with gratitude and admiration.', w / 2, h - 16);
+  // FOOTER
+  ctx.fillStyle='rgba(212,175,55,0.25)'; ctx.font='6px "Cinzel",serif'; ctx.fillText('MI6 · FATHER\'S DAY '+new Date().getFullYear(), w/2, h-18);
+  ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.font='5px "Special Elite",monospace'; ctx.fillText('Awarded with love, gratitude, and admiration', w/2, h-8);
 
-  // Goldfinger egg
+  // GOLDFINGER
   if (S.gfUnlocked) {
-    ctx.save();
-    ctx.globalAlpha = 0.08;
-    ctx.fillStyle = '#cc0000';
-    ctx.font = '5px "Special Elite", monospace';
-    ctx.fillText('No, Mr. Bond, I expect you to die!', w / 2, h - 8);
-    ctx.restore();
+    ctx.save(); ctx.globalAlpha=0.07; ctx.fillStyle='#cc0000'; ctx.font='4.5px "Special Elite",monospace'; ctx.fillText('No, Mr. Bond, I expect you to die!', w/2, h-3); ctx.restore();
   }
-
-  // ── SIGNATURE AREA ──
-  const sigY = h - 48;
-  ctx.strokeStyle = 'rgba(212,175,55,0.2)';
-  ctx.lineWidth = 0.5;
-  ctx.beginPath();
-  ctx.moveTo(w * 0.12, sigY);
-  ctx.lineTo(w * 0.45, sigY);
-  ctx.stroke();
-  ctx.fillStyle = 'rgba(255,255,255,0.1)';
-  ctx.font = '5px "Special Elite", monospace';
-  ctx.fillText('M signed', w / 2 - w * 0.01, sigY + 8);
-
-  ctx.strokeStyle = 'rgba(212,175,55,0.2)';
-  ctx.beginPath();
-  ctx.moveTo(w * 0.55, sigY);
-  ctx.lineTo(w * 0.88, sigY);
-  ctx.stroke();
-  ctx.fillStyle = 'rgba(255,255,255,0.1)';
-  ctx.textAlign = 'center';
-  ctx.fillText('Head of MI6', w / 2 + w * 0.17, sigY + 8);
 
   window.cardImg = canvas.toDataURL('image/png');
 }
@@ -1101,57 +633,31 @@ function renderCard() {
 // EASTER EGGS
 // ──────────────────────────────────────────────────────
 function showToast(main, sub) {
-  const el = document.getElementById('easterToast');
-  el.innerHTML = main + (sub ? '<div class="sub">' + sub + '</div>' : '');
-  el.classList.add('show');
-  clearTimeout(el._hideTimer);
-  el._hideTimer = setTimeout(() => el.classList.remove('show'), 2500);
+  const el=document.getElementById('easterToast');
+  el.innerHTML = main + (sub ? '<div class="sub">'+sub+'</div>' : '');
+  el.classList.add('show'); clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
 document.addEventListener('keydown', (e) => {
-  S.keyBuf.push(e.key);
-  if (S.keyBuf.length > 5) S.keyBuf.shift();
+  S.keyBuf.push(e.key); if (S.keyBuf.length > 5) S.keyBuf.shift();
   const seq = S.keyBuf.join('').toLowerCase();
-  if (seq.includes('007')) {
-    S.isChillMode = true;
-    S.keyBuf = [];
-    showToast('LICENSE TO CHILL', 'Easy mode activated');
-  }
-  if (seq.includes('shaken')) {
-    S.shakenDone = true;
-    S.keyBuf = [];
-    showToast('SHAKEN', 'not stirred');
-    playMartini();
-  }
+  if (seq.includes('007')) { S.isChill = true; S.keyBuf = []; showToast('LICENSE TO CHILL','Easy mode'); }
+  if (seq.includes('shaken')) { S.shakenDone = true; S.keyBuf = []; showToast('SHAKEN','not stirred'); playMartini(); }
 });
 
-document.getElementById('stage-barrel').addEventListener('click', (e) => {
-  const title = document.getElementById('titleAfter');
-  if (!title.classList.contains('show')) return;
-  if (e.target.closest('#titleAfter')) {
+document.getElementById('stage-title').addEventListener('click', (e) => {
+  if (!document.getElementById('titleMain').classList.contains('show')) return;
+  if (e.target.closest('.title-main')) {
     S.gfClicks++;
-    if (S.gfClicks >= 7 && !S.gfUnlocked) {
-      S.gfUnlocked = true;
-      showToast('GOLDFINGER', 'No, Mr. Bond, I expect you to die!');
-    }
+    if (S.gfClicks >= 7 && !S.gfUnlocked) { S.gfUnlocked = true; showToast('GOLDFINGER','No, Mr. Bond, I expect you to die!'); }
   }
 });
 
-document.getElementById('commendationCard').addEventListener('contextmenu', (e) => {
+document.getElementById('cardWrap').addEventListener('contextmenu', (e) => {
   e.preventDefault();
-  const lines = [
-    'Shaken, not stirred.',
-    "Bond. James Bond.",
-    "The name's Robin. Agent Robin.",
-    'For your eyes only.',
-    'You only live twice.',
-    'A martini. Dry. With a twist.',
-    'Licence to be a great dad.',
-    "Happy Father's Day, 007.",
-    'The world is not enough. But you are.',
-    'Never say never again.',
-  ];
-  showToast(lines[Math.floor(Math.random() * lines.length)]);
+  const lines = ['Shaken, not stirred.',"Bond. James Bond.","The name's Robin. Agent Robin.",'For your eyes only.','You only live twice.','A martini. Dry. With a twist.','Licence to be a great dad.',"Happy Father's Day, 007.",'The world is not enough. But you are.','Never say never again.'];
+  showToast(lines[Math.floor(Math.random()*lines.length)]);
 });
 
 // ──────────────────────────────────────────────────────
@@ -1159,22 +665,19 @@ document.getElementById('commendationCard').addEventListener('contextmenu', (e) 
 // ──────────────────────────────────────────────────────
 window.saveCard = function() {
   if (!window.cardImg) renderCard();
-  const link = document.createElement('a');
-  link.download = 'agent-robin-007-commendation.png';
-  link.href = window.cardImg;
-  link.click();
+  const a = document.createElement('a'); a.download = 'agent-robin-007-commendation.png'; a.href = window.cardImg; a.click();
 };
 
 window.replayGame = function() {
-  S.score = 0; S.hits = 0; S.misses = 0;
-  S.totalTargets = 0; S.targetCount = 0;
-  S.targetActive = false;
-  S.gfClicks = 0; S.gfUnlocked = false;
-  S.shakenDone = false; S.isChillMode = false;
+  S.score=0; S.hits=0; S.misses=0; S.totalHits=0; S.totalTargets=0;
+  S.targetCount=0; S.round=0; S.targetActive=false; S.roundRunning=false;
+  S.gfClicks=0; S.gfUnlocked=false; S.shakenDone=false; S.isChill=false;
   if (S.targetEl && S.targetEl.parentNode) S.targetEl.parentNode.removeChild(S.targetEl);
   document.getElementById('gameArea').innerHTML = '';
   clearTimeout(S.timerId);
-  startGame();
+  document.getElementById('gameProgressBar').style.width = '0%';
+  ensureMusicVol();
+  startRound();
 };
 
 // ──────────────────────────────────────────────────────
@@ -1183,15 +686,13 @@ window.replayGame = function() {
 let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    if (S.stage === 'commendation') renderCard();
-  }, 200);
+  resizeTimer = setTimeout(() => { if (S.stage === 'commendation') renderCard(); }, 200);
 });
 
 // ──────────────────────────────────────────────────────
 // INIT
 // ──────────────────────────────────────────────────────
-startBarrel();
+startTitle();
 </script>
 </body>
 </html>
