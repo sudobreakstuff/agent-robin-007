@@ -14,9 +14,9 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 
 /* ── TITLE ── */
 #stage-title{background:#000;z-index:50;overflow:hidden}
-.title-barrel{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.7;animation:barrelPulse 6s ease-in-out infinite}
+.title-barrel{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.7;animation:barrelPulse 6s ease-in-out infinite;pointer-events:none}
 @keyframes barrelPulse{0%,100%{opacity:0.6}50%{opacity:0.85}}
-.title-rifling{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);animation:riflingSpin 20s linear infinite;opacity:0.5}
+.title-rifling{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);animation:riflingSpin 20s linear infinite;opacity:0.5;pointer-events:none}
 @keyframes riflingSpin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
 .title-main{position:absolute;text-align:center;opacity:0;z-index:2}
 .title-main.show{animation:titleReveal 1.2s ease-out forwards}
@@ -471,24 +471,16 @@ function showStage(id) {
 // TITLE
 // ──────────────────────────────────────────────────────
 function startTitle() {
-  showStage('stage-title');
   const titleMain = document.getElementById('titleMain');
   const titleLine = document.getElementById('titleLine');
 
-  // Auto-reveal title after a moment
-  setTimeout(() => {
-    titleMain.classList.add('show');
-    titleLine.classList.add('show');
-  }, 1200);
+  // Show title immediately
+  titleMain.classList.add('show');
+  titleLine.classList.add('show');
 
   // Tap to start
   document.getElementById('stage-title').addEventListener('click', function onStart() {
     this.removeEventListener('click', onStart);
-    // If the title hasn't appeared yet, force it
-    if (!titleMain.classList.contains('show')) {
-      titleMain.classList.add('show');
-      titleLine.classList.add('show');
-    }
     initAudio();
     startMusic();
     setTimeout(() => startBriefing(), 800);
