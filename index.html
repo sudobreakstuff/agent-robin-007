@@ -13,15 +13,11 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .stage.active{display:flex}
 
 /* ── TITLE ── */
-#stage-title{background:#000;z-index:50}
-.title-ring{position:absolute;border-radius:50%;border:2px solid rgba(255,255,255,0.08);animation:titleRingAnim 4s ease-in-out infinite}
-.title-ring:nth-child(1){width:30vmin;height:30vmin;animation-duration:4s}
-.title-ring:nth-child(2){width:45vmin;height:45vmin;animation-duration:5s;animation-delay:-0.5s;border-color:rgba(212,175,55,0.06)}
-.title-ring:nth-child(3){width:60vmin;height:60vmin;animation-duration:6s;animation-delay:-1s;border-color:rgba(139,0,0,0.08)}
-.title-ring:nth-child(4){width:75vmin;height:75vmin;animation-duration:7s;animation-delay:-1.5s}
-.title-dot{position:absolute;width:4vmin;height:4vmin;border-radius:50%;background:radial-gradient(circle,#d4af37,#8b0000);animation:titleDotPulse 2s ease-in-out infinite}
-@keyframes titleRingAnim{0%{transform:rotate(0deg) scale(1);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:rotate(360deg) scale(1.2);opacity:0}}
-@keyframes titleDotPulse{0%,100%{transform:scale(0.8);opacity:0.6}50%{transform:scale(1.2);opacity:1}}
+#stage-title{background:#000;z-index:50;overflow:hidden}
+.title-barrel{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.7;animation:barrelPulse 6s ease-in-out infinite}
+@keyframes barrelPulse{0%,100%{opacity:0.6}50%{opacity:0.85}}
+.title-rifling{position:absolute;width:100vmin;height:100vmin;top:50%;left:50%;transform:translate(-50%,-50%);animation:riflingSpin 20s linear infinite;opacity:0.5}
+@keyframes riflingSpin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
 .title-main{position:absolute;text-align:center;opacity:0;z-index:2}
 .title-main.show{animation:titleReveal 1.2s ease-out forwards}
 @keyframes titleReveal{0%{opacity:0;transform:translateY(20px) scale(0.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
@@ -108,11 +104,54 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 
 <!-- TITLE -->
 <div id="stage-title" class="stage active">
-  <div class="title-ring"></div>
-  <div class="title-ring"></div>
-  <div class="title-ring"></div>
-  <div class="title-ring"></div>
-  <div class="title-dot"></div>
+  <svg class="title-barrel" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="v" cx="50%" cy="50%" r="65%">
+        <stop offset="0%" stop-color="#0d0d0d"/><stop offset="45%" stop-color="#050505"/><stop offset="100%" stop-color="#000"/>
+      </radialGradient>
+      <radialGradient id="m1" cx="50%" cy="50%" r="50%">
+        <stop offset="62%" stop-color="transparent"/><stop offset="66%" stop-color="#2a2a2a"/><stop offset="69%" stop-color="#111"/><stop offset="72%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="m2" cx="50%" cy="50%" r="50%">
+        <stop offset="70%" stop-color="transparent"/><stop offset="73%" stop-color="#333"/><stop offset="76%" stop-color="#0d0d0d"/><stop offset="79%" stop-color="#222"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="m3" cx="50%" cy="50%" r="50%">
+        <stop offset="78%" stop-color="transparent"/><stop offset="81%" stop-color="#2a2a2a"/><stop offset="84%" stop-color="#0a0a0a"/><stop offset="87%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="is" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#000"/><stop offset="30%" stop-color="#030303"/><stop offset="50%" stop-color="#080808"/><stop offset="70%" stop-color="#0f0f0f"/><stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="400" fill="url(#v)"/>
+    <circle cx="200" cy="200" r="195" fill="url(#m1)"/>
+    <circle cx="200" cy="200" r="190" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="185" fill="url(#m2)"/>
+    <circle cx="200" cy="200" r="180" fill="none" stroke="#151515" stroke-width="1"/>
+    <circle cx="200" cy="200" r="175" fill="url(#m3)"/>
+    <circle cx="200" cy="200" r="168" fill="none" stroke="#111" stroke-width="2"/>
+    <circle cx="200" cy="200" r="162" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="155" fill="none" stroke="rgba(212,175,55,0.04)" stroke-width="1"/>
+    <circle cx="200" cy="200" r="148" fill="none" stroke="#0f0f0f" stroke-width="2.5"/>
+    <circle cx="200" cy="200" r="140" fill="none" stroke="#151515" stroke-width="1"/>
+    <circle cx="200" cy="200" r="132" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="0.8"/>
+    <circle cx="200" cy="200" r="125" fill="none" stroke="#0d0d0d" stroke-width="3"/>
+    <circle cx="200" cy="200" r="115" fill="url(#is)"/>
+    <circle cx="200" cy="200" r="80" fill="#000"/>
+    <circle cx="200" cy="200" r="115" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+  </svg>
+  <svg class="title-rifling" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="rf" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(14)">
+        <line x1="0" y1="0" x2="6" y2="6" stroke="#d4af37" stroke-width="0.6" opacity="0.12"/>
+      </pattern>
+      <pattern id="rf2" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-10)">
+        <line x1="0" y1="0" x2="8" y2="8" stroke="#fff" stroke-width="0.3" opacity="0.05"/>
+      </pattern>
+    </defs>
+    <circle cx="200" cy="200" r="150" fill="url(#rf)"/>
+    <circle cx="200" cy="200" r="150" fill="url(#rf2)"/>
+    <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="0.5"/>
+  </svg>
   <div class="title-line" id="titleLine"></div>
   <div class="title-main" id="titleMain">
     <div class="code">007<span>AGENT</span></div>
