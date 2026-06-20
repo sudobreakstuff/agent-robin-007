@@ -947,22 +947,94 @@ function showToast(main, sub) {
   el._t = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
+function easterEggRain() {
+  const area = document.getElementById('gameArea');
+  for (let i = 0; i < 60; i++) {
+    const d = document.createElement('div');
+    d.style.cssText = `position:fixed;width:1px;height:${5+Math.random()*15}px;background:rgba(100,150,255,${0.1+Math.random()*0.2});left:${Math.random()*100}%;top:-${Math.random()*20}px;pointer-events:none;z-index:50`;
+    document.body.appendChild(d);
+    d.animate([
+      { transform: 'translateY(0)', opacity: 1 },
+      { transform: `translateY(${window.innerHeight+50}px)`, opacity: 0.3 }
+    ], { duration: 1500 + Math.random()*1000, easing: 'linear', fill: 'forwards' });
+    setTimeout(() => d.remove(), 3000);
+  }
+  showToast('SKYFALL','The rain in Spain...');
+}
+
+function easterEggBoom() {
+  const f = document.createElement('div');
+  f.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100;background:radial-gradient(circle at center,rgba(255,200,100,0.6),rgba(255,100,0,0.3),transparent);opacity:0;animation:fadeIn 0.08s ease-out forwards';
+  document.body.appendChild(f);
+  setTimeout(() => f.remove(), 200);
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement('div');
+    p.style.cssText = `position:fixed;width:${3+Math.random()*8}px;height:${3+Math.random()*8}px;border-radius:50%;background:hsl(${Math.random()*60},100%,50%);left:${20+Math.random()*60}%;top:${20+Math.random()*60}%;pointer-events:none;z-index:100;opacity:1`;
+    document.body.appendChild(p);
+    p.animate([
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+      { transform: `translate(${(Math.random()-0.5)*400}px,${(Math.random()-0.5)*400}px) scale(0)`, opacity: 0 }
+    ], { duration: 600 + Math.random()*400, easing: 'ease-out', fill: 'forwards' });
+    setTimeout(() => p.remove(), 1200);
+  }
+  showToast('BOOM','Shaken, not stirred — now EXPLODED');
+}
+
+function easterEggGold() {
+  document.querySelectorAll('.game-target').forEach(t => {
+    const si = t.querySelector('.si');
+    if (si) {
+      si.style.transition = 'all 0.5s';
+      si.style.filter = 'invert(1) drop-shadow(0 0 15px rgba(212,175,55,0.8)) sepia(1) saturate(3) hue-rotate(-20deg)';
+    }
+  });
+  showToast('GOLDFINGER','Everything turns to gold');
+}
+
+function easterEggLaser() {
+  const l = document.createElement('div');
+  l.style.cssText = 'position:fixed;top:50%;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,0,0,0.6),rgba(255,0,0,0.8),rgba(255,0,0,0.6),transparent);pointer-events:none;z-index:50;opacity:0';
+  document.body.appendChild(l);
+  l.animate([
+    { transform: 'translateY(0)', opacity: 1 },
+    { transform: `translateY(${(Math.random()-0.5)*window.innerHeight}px)`, opacity: 0 },
+    { transform: `translateY(${(Math.random()-0.5)*window.innerHeight}px)`, opacity: 1 },
+    { transform: 'translateY(0)', opacity: 0 }
+  ], { duration: 2000, easing: 'ease-in-out', fill: 'forwards' });
+  setTimeout(() => l.remove(), 2200);
+  showToast('LASER SIGHT','They\'ve got a laser guidance system');
+}
+
+function easterEggParty() {
+  if (typeof confetti !== 'undefined') {
+    confetti({ particleCount: 300, spread: 180, origin: { y: 0.5 }, colors: ['#d4af37','#cc0000','#fff','#8b0000','#ff8800','#00ff88','#4488ff'] });
+    setTimeout(() => confetti({ particleCount: 200, spread: 120, origin: { y: 0.3, x: 0.3 }, colors: ['#d4af37','#fff'] }), 300);
+    setTimeout(() => confetti({ particleCount: 200, spread: 120, origin: { y: 0.3, x: 0.7 }, colors: ['#ff0000','#d4af37'] }), 600);
+  }
+  showToast('PARTY','Licence to celebrate');
+}
+
 document.addEventListener('keydown', (e) => {
-  S.keyBuf.push(e.key); if (S.keyBuf.length > 8) S.keyBuf.shift();
+  S.keyBuf.push(e.key); if (S.keyBuf.length > 12) S.keyBuf.shift();
   const seq = S.keyBuf.join('').toLowerCase();
-  if (seq.includes('007')) { S.isChill = true; S.keyBuf = []; showToast('LICENSE TO CHILL','Easy mode'); }
-  if (seq.includes('shaken')) { S.shakenDone = true; S.keyBuf = []; showToast('SHAKEN','not stirred'); playMartini(); }
-  if (seq.includes('db5')) { S.keyBuf = []; showToast('ASTON MARTIN DB5','0-60 in 8 seconds — ejector seat optional'); playEngine(); }
-  if (seq.includes('vantage')) { S.keyBuf = []; showToast('V12 VANTAGE','510 horsepower — built for a Bond villain'); playEngine(); }
-  if (seq.includes('skyfall')) { S.keyBuf = []; showToast('SKYFALL','Sometimes the old ways are best'); }
-  if (seq.includes('golden')) { S.keyBuf = []; showToast('GOLDENEYE','I never miss'); }
+  if (seq.includes('007')) { S.isChill = true; S.keyBuf = []; showToast('LICENSE TO CHILL','Easy mode — targets last longer'); }
+  if (seq.includes('boom') || seq.includes('explode')) { S.keyBuf = []; easterEggBoom(); }
+  if (seq.includes('gold') || seq.includes('goldfinger')) { S.keyBuf = []; easterEggGold(); }
+  if (seq.includes('rain') || seq.includes('skyfall')) { S.keyBuf = []; easterEggRain(); }
+  if (seq.includes('laser')) { S.keyBuf = []; easterEggLaser(); }
+  if (seq.includes('party')) { S.keyBuf = []; easterEggParty(); }
 });
 
 document.getElementById('stage-title').addEventListener('click', (e) => {
-  if (!document.getElementById('titleMain').classList.contains('show')) return;
   if (e.target.closest('.title-main')) {
     S.gfClicks++;
-    if (S.gfClicks >= 7 && !S.gfUnlocked) { S.gfUnlocked = true; showToast('GOLDFINGER','No, Mr. Bond, I expect you to die!'); }
+    if (S.gfClicks >= 7 && !S.gfUnlocked) {
+      S.gfUnlocked = true;
+      showToast('GOLDFINGER','No, Mr. Bond, I expect you to die!');
+      if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 100, spread: 120, origin: { y: 0.5 }, colors: ['#d4af37','#cc0000','#8b0000'] });
+      }
+    }
   }
 });
 
