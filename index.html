@@ -692,6 +692,8 @@ function showCommendation() {
   } else { rank = S.totalHits === 0 ? '07 — HONOURARY DAD' : '07 — JUNIOR OPERATIVE'; }
 
   // Stats
+  const isPerfect = S.misses === 0 && S.totalHits > 0;
+
   document.getElementById('commStats').innerHTML = `
     <div class="comm-stat"><div class="val">${S.score}</div><div class="lbl">SCORE</div></div>
     <div class="comm-stat"><div class="val">${S.totalHits}</div><div class="lbl">HITS</div></div>
@@ -712,7 +714,6 @@ function showCommendation() {
   }
 
   // Confetti
-  const isPerfect = S.misses === 0 && S.totalHits > 0;
   setTimeout(() => {
     if (typeof confetti !== 'undefined') {
       confetti({ particleCount: isPerfect ? 200 : 120, spread: 80, origin: { y: 0.5 }, colors: ['#d4af37','#cc0000','#fff','#8b0000','#ff8800'] });
