@@ -39,7 +39,7 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .briefing-card .head .code::after{content:'007';position:absolute;font-size:clamp(3.5rem,14vw,7rem);color:rgba(212,175,55,0.03);top:50%;left:50%;transform:translate(-50%,-50%);z-index:-1;letter-spacing:0.05em}
 .briefing-card .head .to{font-size:clamp(0.5rem,1.5vw,0.75rem);color:#777;margin-top:0.1rem;letter-spacing:0.15em;font-family:'Cinzel',serif}
 .briefing-card .head .recipient{font-family:'Cinzel Decorative',serif;font-size:clamp(0.7rem,2.2vw,1.1rem);color:#fff;margin-top:0.1rem;letter-spacing:0.3em;text-shadow:0 0 10px rgba(255,255,255,0.05)}
-.briefing-card .body{font-family:'Special Elite',monospace;font-size:clamp(0.5rem,1.4vw,0.75rem);color:#999;line-height:1.9;letter-spacing:0.02em}
+.briefing-card .body{font-family:'Special Elite',monospace;font-size:clamp(0.7rem,1.8vw,0.9rem);color:#999;line-height:1.9;letter-spacing:0.02em}
 .briefing-card .body p{opacity:0;animation:fadeUp 0.6s ease-out forwards}
 .briefing-card .body p:nth-child(1){animation-delay:0.2s}
 .briefing-card .body p:nth-child(2){animation-delay:0.5s}
@@ -61,8 +61,8 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 /* ── GAME ── */
 #stage-game{background:#000 url('007wallpaper.jpg') no-repeat center/cover;overflow:hidden}
 .game-hud{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.8rem;z-index:10}
-.game-hud .round{font-size:clamp(0.45rem,1.3vw,0.65rem);color:#555;letter-spacing:0.15em}
-.game-hud .score{font-size:clamp(0.6rem,2vw,0.9rem);color:#d4af37;font-family:'Special Elite',monospace}
+.game-hud .round{font-size:clamp(0.65rem,1.8vw,0.9rem);color:#555;letter-spacing:0.15em}
+.game-hud .score{font-size:clamp(0.85rem,2.8vw,1.2rem);color:#d4af37;font-family:'Special Elite',monospace}
 .game-area{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23d4af37' stroke-width='1.2' opacity='0.85'/%3E%3Cline x1='16' y1='1' x2='16' y2='31' stroke='%23d4af37' stroke-width='0.8' opacity='0.3'/%3E%3Cline x1='1' y1='16' x2='31' y2='16' stroke='%23d4af37' stroke-width='0.8' opacity='0.3'/%3E%3Cline x1='16' y1='3' x2='16' y2='7' stroke='%23d4af37' stroke-width='1.4'/%3E%3Cline x1='16' y1='25' x2='16' y2='29' stroke='%23d4af37' stroke-width='1.4'/%3E%3Cline x1='3' y1='16' x2='7' y2='16' stroke='%23d4af37' stroke-width='1.4'/%3E%3Cline x1='25' y1='16' x2='29' y2='16' stroke='%23d4af37' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23cc0000'/%3E%3C/svg%3E") 16 16, crosshair}
 .game-target{position:absolute;width:100px;height:140px;transform:translate(-50%,-50%);cursor:crosshair;z-index:6}
 .game-target .si{width:100%;height:100%;background:url('target-silhouette.svg') no-repeat center/contain;filter:invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.4)) drop-shadow(0 0 12px rgba(255,255,255,0.15))}
@@ -97,25 +97,25 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .comm-section{opacity:0;transform:translateY(15px);width:100%;text-align:center}
 .comm-section.show{animation:commReveal 0.6s ease-out forwards}
 @keyframes commReveal{0%{opacity:0;transform:translateY(15px)}100%{opacity:1;transform:translateY(0)}}
-.comm-badge{font-family:'Cinzel Decorative',serif;font-size:clamp(0.85rem,3vw,1.4rem);color:#d4af37;letter-spacing:0.15em;text-shadow:0 0 20px rgba(212,175,55,0.2)}
-.comm-badge small{display:block;font-size:clamp(0.4rem,1.2vw,0.6rem);color:#666;font-family:'Cinzel',serif;letter-spacing:0.3em;margin-top:0.1rem}
+.comm-badge{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,4vw,2rem);color:#d4af37;letter-spacing:0.15em;text-shadow:0 0 20px rgba(212,175,55,0.2)}
+.comm-badge small{display:block;font-size:clamp(0.6rem,1.6vw,0.85rem);color:#666;font-family:'Cinzel',serif;letter-spacing:0.3em;margin-top:0.1rem}
 .comm-rule{width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.25),transparent);margin:0.2rem auto}
-.comm-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1rem,4vw,1.8rem);color:#fff;letter-spacing:0.08em;line-height:1.2}
+.comm-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,5vw,2.2rem);color:#fff;letter-spacing:0.08em;line-height:1.2}
 .comm-title .g{color:#d4af37}
-.comm-agent{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,4.5vw,2rem);color:#d4af37;text-shadow:0 0 30px rgba(212,175,55,0.15);letter-spacing:0.12em}
+.comm-agent{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,5.5vw,2.5rem);color:#d4af37;text-shadow:0 0 30px rgba(212,175,55,0.15);letter-spacing:0.12em}
 .comm-stats{display:flex;gap:clamp(0.5rem,2vw,1.2rem);justify-content:center;flex-wrap:wrap}
 .comm-stat{background:rgba(255,255,255,0.02);border:1px solid rgba(212,175,55,0.08);border-radius:4px;padding:0.4rem 0.7rem;min-width:70px;flex:1;max-width:120px}
-.comm-stat .val{font-family:'Special Elite',monospace;font-size:clamp(0.7rem,2.2vw,1rem);color:#d4af37}
-.comm-stat .lbl{font-size:clamp(0.35rem,1vw,0.5rem);color:#555;letter-spacing:0.1em;margin-top:0.05rem}
-.comm-rank{display:inline-block;border:1px solid #d4af37;border-radius:4px;padding:0.3rem 1rem;font-size:clamp(0.45rem,1.4vw,0.7rem);color:#d4af37;letter-spacing:0.15em;background:rgba(212,175,55,0.03)}
+.comm-stat .val{font-family:'Special Elite',monospace;font-size:clamp(1rem,3vw,1.4rem);color:#d4af37}
+.comm-stat .lbl{font-size:clamp(0.5rem,1.3vw,0.65rem);color:#555;letter-spacing:0.1em;margin-top:0.05rem}
+.comm-rank{display:inline-block;border:1px solid #d4af37;border-radius:4px;padding:0.4rem 1.2rem;font-size:clamp(0.65rem,1.8vw,0.9rem);color:#d4af37;letter-spacing:0.15em;background:rgba(212,175,55,0.03)}
 .comm-card-hidden{display:none}
 .comm-card-hidden canvas{width:100%;height:auto;border-radius:4px}
 .comm-actions{display:flex;gap:0.6rem;margin-top:0.5rem;flex-wrap:wrap;justify-content:center}
-.comm-actions button{background:transparent;border:1px solid #d4af37;color:#d4af37;padding:0.45rem 1.4rem;font-family:'Cinzel',serif;font-size:clamp(0.45rem,1.3vw,0.65rem);cursor:pointer;letter-spacing:0.15em;transition:all 0.3s;border-radius:3px}
+.comm-actions button{background:transparent;border:1px solid #d4af37;color:#d4af37;padding:0.6rem 1.8rem;font-family:'Cinzel',serif;font-size:clamp(0.65rem,1.7vw,0.85rem);cursor:pointer;letter-spacing:0.15em;transition:all 0.3s;border-radius:3px}
 .comm-actions button:hover,.comm-actions button:active{background:#d4af37;color:#000}
 .comm-actions button.sec{border-color:#333;color:#666}
 .comm-actions button.sec:hover,.comm-actions button.sec:active{border-color:#666;color:#999;background:#111}
-.comm-foot{font-family:'Special Elite',monospace;font-size:clamp(0.35rem,0.9vw,0.5rem);color:#333;margin-top:0.3rem;text-align:center}
+.comm-foot{font-family:'Special Elite',monospace;font-size:clamp(0.7rem,2vw,1rem);color:#555;margin-top:0.6rem;text-align:center;letter-spacing:0.1em}
 
 /* ── TOAST ── */
 .easter-toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-family:'Cinzel Decorative',serif;color:#d4af37;font-size:clamp(1rem,4vw,2rem);text-shadow:0 0 40px rgba(212,175,55,0.4);pointer-events:none;z-index:100;opacity:0;transition:all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);text-align:center;padding:1rem}
@@ -249,7 +249,7 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
     <div class="comm-section" id="cs5"><div class="comm-rank" id="commRank"></div></div>
     <div class="comm-section" id="cs6"><div class="comm-card-hidden" id="cardWrap"><canvas id="cardCanvas"></canvas></div></div>
     <div class="comm-section" id="cs7"><div class="comm-actions"><button onclick="window.saveCard()">DOWNLOAD COMMENDATION</button><button onclick="window.replayGame()" class="sec">PLAY AGAIN</button></div></div>
-    <div class="comm-section" id="cs8"><div class="comm-foot">Share a screenshot of this screen — your family will love it · Made by Shahid Singh for Dad</div></div>
+    <div class="comm-section" id="cs8"><div class="comm-foot">Made by Shahid Singh for Dad</div></div>
   </div>
 </div>
 
