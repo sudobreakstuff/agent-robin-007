@@ -59,7 +59,7 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .briefing-card .btn:hover,.briefing-card .btn:active{background:#d4af37;color:#000;box-shadow:0 0 20px rgba(212,175,55,0.15)}
 
 /* ── GAME ── */
-#stage-game{background:radial-gradient(ellipse at 50% 60%,#111,#0a0a0a);overflow:hidden}
+#stage-game{background:#000 url('007wallpaper.jpg') no-repeat center/cover;overflow:hidden}
 .game-hud{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.8rem;z-index:10}
 .game-hud .round{font-size:clamp(0.45rem,1.3vw,0.65rem);color:#555;letter-spacing:0.15em}
 .game-hud .score{font-size:clamp(0.6rem,2vw,0.9rem);color:#d4af37;font-family:'Special Elite',monospace}
@@ -92,7 +92,6 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 
 /* ── COMMENDATION ── */
 #stage-commendation{background:#000;overflow:hidden}
-#stage-commendation .barrel-bg{position:absolute;width:120vmin;height:120vmin;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.04;pointer-events:none}
 .comm-scroll{width:100%;max-width:520px;max-height:100%;overflow-y:auto;padding:1.5rem 1rem;display:flex;flex-direction:column;align-items:center;gap:0.4rem;z-index:1;-ms-overflow-style:none;scrollbar-width:none}
 .comm-scroll::-webkit-scrollbar{display:none}
 .comm-section{opacity:0;transform:translateY(15px);width:100%;text-align:center}
@@ -126,8 +125,8 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 /* ── DRIVE-AWAY ── */
 .drive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;overflow:hidden}
 .drive-overlay.active{display:flex}
-.drive-car{position:absolute;bottom:15%;width:clamp(180px,50vw,400px);height:auto;opacity:0;animation:driveAway 3s ease-in forwards}
-@keyframes driveAway{0%{transform:translateX(-10vw) scale(0.3);opacity:0}10%{transform:translateX(0) scale(1);opacity:1}25%{transform:translateX(5vw) scale(1);opacity:1}60%{transform:translateX(60vw) scale(0.8);opacity:1}85%{transform:translateX(100vw) scale(0.4);opacity:0.6}100%{transform:translateX(120vw) scale(0.2);opacity:0}}
+.drive-car{position:absolute;bottom:10%;width:clamp(280px,70vw,600px);height:auto;opacity:0;animation:driveAway 3.2s ease-in forwards}
+@keyframes driveAway{0%{transform:translateX(-10vw) scale(0.4);opacity:0}10%{transform:translateX(0) scale(1.1);opacity:1}25%{transform:translateX(5vw) scale(1.1);opacity:1}60%{transform:translateX(60vw) scale(0.9);opacity:1}85%{transform:translateX(100vw) scale(0.5);opacity:0.6}100%{transform:translateX(120vw) scale(0.25);opacity:0}}
 .drive-smoke{position:absolute;bottom:14%;opacity:0;animation:smokePuff 2s ease-out forwards}
 .drive-smoke1{left:30%;width:clamp(30px,8vw,60px);height:clamp(20px,5vw,40px);background:radial-gradient(ellipse,rgba(200,200,200,0.15),transparent);border-radius:50%;animation-delay:0.3s}
 .drive-smoke2{left:35%;width:clamp(40px,10vw,80px);height:clamp(25px,6vw,50px);background:radial-gradient(ellipse,rgba(200,200,200,0.1),transparent);border-radius:50%;animation-delay:0.6s}
@@ -135,6 +134,16 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 .drive-text{position:absolute;bottom:40%;text-align:center;opacity:0;animation:fadeIn 1s ease-out 2s forwards;z-index:10}
 .drive-text .t1{font-family:'Cinzel Decorative',serif;font-size:clamp(0.8rem,3vw,1.5rem);color:#d4af37;letter-spacing:0.15em}
 .drive-text .t2{font-family:'Special Elite',monospace;font-size:clamp(0.45rem,1.5vw,0.7rem);color:#555;margin-top:0.3rem;letter-spacing:0.15em}
+
+/* ── SELF-DESTRUCT ── */
+.self-destruct{position:fixed;top:0;left:0;width:100%;height:100%;z-index:300;display:none;flex-direction:column;align-items:center;justify-content:center;background:#000;overflow:hidden}
+.self-destruct.active{display:flex}
+.self-destruct .msg{font-family:'Special Elite',monospace;font-size:clamp(0.7rem,2.5vw,1.1rem);color:rgba(139,0,0,0.7);letter-spacing:0.15em;text-shadow:0 0 20px rgba(139,0,0,0.15)}
+.self-destruct .count{font-family:'Cinzel Decorative',serif;font-size:clamp(3rem,12vw,6rem);color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.2);margin-top:0.5rem;letter-spacing:0.05em}
+.self-destruct .count.fade{transition:all 0.3s;opacity:0;transform:scale(0.5)}
+.self-destruct .flash{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:301;background:radial-gradient(circle at center,rgba(255,200,100,0.5) 0%,rgba(255,150,50,0.2) 20%,rgba(200,0,0,0.1) 40%,transparent 65%);opacity:0;transition:opacity 0.1s}
+.self-destruct .flash.active{opacity:1}
+.self-destruct .debris{position:absolute;width:4px;height:4px;border-radius:50%;background:#d4af37;opacity:0;pointer-events:none}
 
 /* ── ANIMATIONS ── */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -239,13 +248,6 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
 
 <!-- COMMENDATION -->
 <div id="stage-commendation" class="stage">
-  <svg class="barrel-bg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="200" cy="200" r="195" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/>
-    <circle cx="200" cy="200" r="170" fill="none" stroke="#d4af37" stroke-width="0.3" opacity="0.2"/>
-    <circle cx="200" cy="200" r="140" fill="none" stroke="#d4af37" stroke-width="0.3" opacity="0.15"/>
-    <circle cx="200" cy="200" r="100" fill="rgba(212,175,55,0.02)"/>
-    <circle cx="200" cy="200" r="100" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.1"/>
-  </svg>
   <div class="comm-scroll" id="commScroll">
     <div class="comm-section" id="cs0"><div class="comm-badge">MISSION COMPLETE<small>MI6 FATHER'S DAY OPERATION</small></div></div>
     <div class="comm-rule"></div>
@@ -270,6 +272,13 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
     <div class="t1">MISSION COMPLETE</div>
     <div class="t2">Agent Robin has left the building</div>
   </div>
+</div>
+
+<!-- SELF-DESTRUCT -->
+<div class="self-destruct" id="selfDestruct">
+  <div class="flash" id="sdFlash"></div>
+  <div class="msg">THIS MESSAGE WILL SELF-DESTRUCT IN</div>
+  <div class="count" id="sdCount">5</div>
 </div>
 
 <!-- OVERLAYS -->
@@ -492,7 +501,56 @@ function startTitle() {
 function startBriefing() {
   showStage('stage-briefing');
   setTimeout(() => document.getElementById('briefFooter').classList.add('show'), 500);
-  document.getElementById('btnAccept').addEventListener('click', () => startGame(), { once: true });
+  document.getElementById('btnAccept').addEventListener('click', () => {
+    startSelfDestruct();
+  }, { once: true });
+}
+
+function startSelfDestruct() {
+  const sd = document.getElementById('selfDestruct');
+  sd.classList.add('active');
+  let count = 5;
+  const cdEl = document.getElementById('sdCount');
+  const flash = document.getElementById('sdFlash');
+
+  function tick() {
+    if (count <= 0) {
+      // EXPLOSION
+      flash.classList.add('active');
+      // Debris particles
+      for (let i = 0; i < 40; i++) {
+        const d = document.createElement('div');
+        d.className = 'debris';
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 50 + Math.random() * 200;
+        d.style.left = '50%';
+        d.style.top = '50%';
+        d.style.width = d.style.height = (2 + Math.random() * 6) + 'px';
+        d.style.background = ['#d4af37','#cc0000','#fff','#ff8800'][Math.floor(Math.random()*4)];
+        sd.appendChild(d);
+        d.animate([
+          { transform: 'translate(-50%,-50%) scale(0)', opacity: 1 },
+          { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(0.5)`, opacity: 0 }
+        ], { duration: 600, easing: 'ease-out', fill: 'forwards' });
+        setTimeout(() => d.remove(), 700);
+      }
+      setTimeout(() => {
+        flash.classList.remove('active');
+        sd.classList.remove('active');
+        // Clear any debris
+        sd.querySelectorAll('.debris').forEach(d => d.remove());
+        startGame();
+      }, 500);
+      return;
+    }
+    cdEl.textContent = count;
+    cdEl.classList.remove('fade');
+    void cdEl.offsetWidth;
+    setTimeout(() => cdEl.classList.add('fade'), 200);
+    count--;
+    setTimeout(tick, 900);
+  }
+  tick();
 }
 
 // ──────────────────────────────────────────────────────
@@ -712,7 +770,9 @@ function showCommendation() {
     <div class="comm-stat"><div class="val">${S.misses}</div><div class="lbl">MISSES</div></div>
     <div class="comm-stat"><div class="val">${Math.round(pct * 100)}%</div><div class="lbl">ACCURACY</div></div>
   `;
-  document.getElementById('commRank').textContent = rank;
+  const rankEl = document.getElementById('commRank');
+  rankEl.textContent = rank;
+  if (isPerfect) rankEl.style.borderColor = '#d4af37';
 
   // Render card for download (hidden)
   renderCard();
@@ -731,8 +791,6 @@ function showCommendation() {
       if (isPerfect) setTimeout(() => confetti({ particleCount: 150, spread: 120, origin: { y: 0.3, x: 0.3 }, colors: ['#d4af37','#fff'] }), 500);
     }
   }, 600);
-  if (isPerfect)
-    setTimeout(() => showToast('DOUBLE 00 — LEGENDARY'), 1200);
 }
 
 function renderCard() {
@@ -749,72 +807,75 @@ function renderCard() {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  // Background with subtle paper texture
+  // Dark parchment gradient background
   const bg = ctx.createLinearGradient(0,0,0,h);
-  bg.addColorStop(0,'#0d0d0d'); bg.addColorStop(0.25,'#0f0a08'); bg.addColorStop(0.5,'#0a0705'); bg.addColorStop(0.75,'#0f0a08'); bg.addColorStop(1,'#050505');
+  bg.addColorStop(0,'#0f0d0a'); bg.addColorStop(0.15,'#0c0906');
+  bg.addColorStop(0.5,'#080604'); bg.addColorStop(0.85,'#0c0906'); bg.addColorStop(1,'#050302');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
 
-  // Decorative outer border (double line)
-  ctx.strokeStyle = '#d4af37'; ctx.lineWidth = 1.5; ctx.strokeRect(6,6,w-12,h-12);
-  ctx.strokeStyle = 'rgba(212,175,55,0.3)'; ctx.lineWidth = 0.5; ctx.strokeRect(9,9,w-18,h-18);
+  // Elegant single border with subtle corner brackets
+  ctx.strokeStyle = '#d4af37'; ctx.lineWidth = 1.2;
+  const b = 8;
+  ctx.beginPath();
+  // Top-left
+  ctx.moveTo(b+12,b); ctx.lineTo(w-b-12,b);
+  // Top-right
+  ctx.moveTo(w-b,b+12); ctx.lineTo(w-b,h-b-12);
+  // Bottom-right
+  ctx.moveTo(w-b-12,h-b); ctx.lineTo(b+12,h-b);
+  // Bottom-left
+  ctx.moveTo(b,h-b-12); ctx.lineTo(b,b+12);
+  ctx.stroke();
 
-  // Ornate corners
-  const drawCorner = (cx,cy,dx,dy) => {
-    ctx.strokeStyle='#d4af37'; ctx.lineWidth=1.2;
-    ctx.beginPath(); ctx.moveTo(cx+dx*14,cy); ctx.lineTo(cx+dx*4,cy); ctx.lineTo(cx+dx*4,cy+dy*4);
-    ctx.moveTo(cx+dx*10,cy+dy*2); ctx.lineTo(cx+dx*6,cy+dy*6);
-    ctx.stroke();
-    ctx.fillStyle='#d4af37'; ctx.beginPath(); ctx.arc(cx+dx*4,cy+dy*4,2,0,Math.PI*2); ctx.fill();
-  };
-  drawCorner(6,6,1,1); drawCorner(w-6,6,-1,1); drawCorner(w-6,h-6,-1,-1); drawCorner(6,h-6,1,-1);
+  // Corner accents (small gold dots)
+  ctx.fillStyle = '#d4af37';
+  [
+    [b+4,b+4],[w-b-4,b+4],[w-b-4,h-b-4],[b+4,h-b-4],
+    [b+4,h/2],[w-b-4,h/2],
+  ].forEach(([x,y]) => { ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2); ctx.fill(); });
 
-  // Inner border
-  ctx.strokeStyle = 'rgba(212,175,55,0.12)'; ctx.lineWidth = 0.5; ctx.strokeRect(16,16,w-32,h-32);
-
-  // Faint 007 watermark
-  ctx.save(); ctx.globalAlpha=0.02; ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.35}px "Cinzel Decorative",serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('007',w/2,h/2); ctx.restore();
-
-  // MI6 CREST — circular seal at top center
-  const sealY = 80;
-  ctx.save();
-  ctx.globalAlpha=0.08;
-  ctx.beginPath(); ctx.arc(w/2,sealY,w*0.06,0,Math.PI*2); ctx.strokeStyle='#fff'; ctx.lineWidth=1.2; ctx.stroke();
-  ctx.beginPath(); ctx.arc(w/2,sealY,w*0.04,0,Math.PI*2); ctx.strokeStyle='rgba(212,175,55,0.3)'; ctx.lineWidth=0.8; ctx.stroke();
-  ctx.beginPath(); ctx.arc(w/2,sealY,5,0,Math.PI*2); ctx.fillStyle='#d4af37'; ctx.fill();
-  ctx.restore();
-
-  // TOP SECRET stamp
-  ctx.save(); ctx.globalAlpha=0.07; ctx.translate(w-56,55); ctx.rotate(-0.12); ctx.fillStyle='#cc0000'; ctx.font='10px "Special Elite",monospace'; ctx.fillText('TOP SECRET',0,0); ctx.restore();
+  // Thin inner guide line (very faint)
+  ctx.strokeStyle = 'rgba(212,175,55,0.08)'; ctx.lineWidth = 0.3;
+  ctx.strokeRect(20,20,w-40,h-40);
 
   ctx.textAlign='center'; ctx.textBaseline='middle';
 
-  // —— HEADER ——
-  ctx.fillStyle='rgba(212,175,55,0.35)'; ctx.font='10px "Cinzel",serif'; ctx.fillText('HER MAJESTY\'S SECRET SERVICE',w/2,110);
-  ctx.strokeStyle='rgba(212,175,55,0.2)'; ctx.lineWidth=0.8;
-  ctx.beginPath(); ctx.moveTo(w*0.2,120); ctx.lineTo(w*0.8,120); ctx.stroke();
+  // —— MI6 CREST (minimal, elegant) ——
+  const sealY = 75;
+  ctx.save();
+  ctx.beginPath(); ctx.arc(w/2,sealY,38,0,Math.PI*2);
+  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=1; ctx.stroke();
+  ctx.beginPath(); ctx.arc(w/2,sealY,32,0,Math.PI*2);
+  ctx.strokeStyle='rgba(212,175,55,0.08)'; ctx.lineWidth=0.5; ctx.stroke();
+  ctx.fillStyle='rgba(212,175,55,0.1)'; ctx.font='14px "Cinzel Decorative",serif'; ctx.fillText('007',w/2,sealY+1);
+  ctx.restore();
 
-  // —— 007 CODE ——
-  ctx.fillStyle='rgba(212,175,55,0.12)'; ctx.font=`bold ${w*0.065}px "Cinzel Decorative",serif`;
-  ctx.fillText('007',w/2,155);
+  // —— HEADER ——
+  ctx.fillStyle='rgba(212,175,55,0.3)'; ctx.font='9px "Cinzel",serif'; ctx.fillText('HER MAJESTY\'S SECRET SERVICE',w/2,120);
+
+  // Gold divider
+  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=0.8;
+  ctx.beginPath(); ctx.moveTo(w*0.15,130); ctx.lineTo(w*0.85,130); ctx.stroke();
 
   // —— TITLE ——
-  ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.04}px "Cinzel Decorative",serif`;
-  ctx.fillText('FATHER\'S DAY COMMENDATION',w/2,195);
+  ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.038}px "Cinzel Decorative",serif`;
+  ctx.fillText('FATHER\'S DAY COMMENDATION',w/2,170);
 
-  // —— GOLD DIVIDER ——
-  ctx.strokeStyle='rgba(212,175,55,0.25)'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(w*0.1,215); ctx.lineTo(w*0.9,215); ctx.stroke();
-  ctx.fillStyle='rgba(212,175,55,0.08)'; ctx.font='8px "Special Elite",monospace'; ctx.fillText('♦',w/2,215);
+  // —— AWARD DIVIDER ——
+  ctx.strokeStyle='rgba(212,175,55,0.18)'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(w*0.08,190); ctx.lineTo(w*0.42,190); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w*0.58,190); ctx.lineTo(w*0.92,190); ctx.stroke();
+  ctx.fillStyle='rgba(212,175,55,0.06)'; ctx.font='6px "Cinzel",serif'; ctx.fillText('✦',w/2,190);
 
   // —— PRESENTED TO ——
-  ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.font=`${w*0.022}px "Cinzel",serif`;
-  ctx.fillText('Presented to',w/2,260);
+  ctx.fillStyle='rgba(255,255,255,0.18)'; ctx.font=`${w*0.02}px "Cinzel",serif`;
+  ctx.fillText('Presented to',w/2,230);
 
   // —— NAME ——
-  ctx.fillStyle='#fff'; ctx.font=`bold ${w*0.048}px "Cinzel",serif`;
-  ctx.fillText('AGENT ROBIN 007',w/2,310);
-  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(w*0.25,325); ctx.lineTo(w*0.75,325); ctx.stroke();
+  ctx.fillStyle='#fff'; ctx.font=`bold ${w*0.05}px "Cinzel",serif`;
+  ctx.fillText('AGENT ROBIN 007',w/2,280);
+  ctx.strokeStyle='rgba(212,175,55,0.12)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(w*0.25,295); ctx.lineTo(w*0.75,295); ctx.stroke();
 
   // —— RECOGNITION TEXT ——
   const bodyS = w * 0.024;
@@ -832,16 +893,16 @@ function renderCard() {
     'By the authority vested in me as Head of MI6,',
     'it is my honour to formally recognise you as',
   ];
-  let by = 350;
+  let by = 340;
   bodyLines.forEach(l => { ctx.fillText(l,w/2,by); by += bodyS*1.7; });
 
-  // —— WORLD'S BEST FATHER (with gold glow) ——
-  ctx.shadowColor = 'rgba(212,175,55,0.2)'; ctx.shadowBlur = 10;
+  // —— THE WORLD'S BEST FATHER ——
+  ctx.shadowColor = 'rgba(212,175,55,0.25)'; ctx.shadowBlur = 12;
   ctx.fillStyle='#d4af37'; ctx.font=`bold ${w*0.038}px "Cinzel Decorative",serif`;
   ctx.fillText('THE WORLD\'S BEST FATHER',w/2,by + 10);
   ctx.shadowBlur = 0;
 
-  // —— PERSONAL NOTE from family ——
+  // —— FAMILY NOTE ——
   by += 55;
   ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font=`${bodyS*0.85}px "Special Elite",monospace`;
   const noteLines = [
@@ -875,45 +936,59 @@ function renderCard() {
   ctx.fillRect(w/2 - 40, ribY, 80, 12);
   ctx.fillStyle='rgba(255,255,255,0.04)';
   ctx.fillRect(w/2 - 30, ribY, 60, 12);
-  // Small medal circle
-  ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=1.2;
-  ctx.beginPath(); ctx.arc(w/2, ribY + 20, 12, 0, Math.PI*2); ctx.stroke();
-  ctx.fillStyle='rgba(212,175,55,0.08)';
-  ctx.beginPath(); ctx.arc(w/2, ribY + 20, 8, 0, Math.PI*2); ctx.fill();
+  // Medal star
+  ctx.save();
+  ctx.translate(w/2, ribY + 20);
+  ctx.fillStyle='rgba(212,175,55,0.1)';
+  ctx.beginPath();
+  for (let i = 0; i < 5; i++) {
+    const a = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+    const ax = Math.cos(a) * 14;
+    const ay = Math.sin(a) * 14;
+    if (i === 0) ctx.moveTo(ax, ay);
+    else ctx.lineTo(ax, ay);
+    const a2 = a + Math.PI / 5;
+    const ax2 = Math.cos(a2) * 7;
+    const ay2 = Math.sin(a2) * 7;
+    ctx.lineTo(ax2, ay2);
+  }
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
 
   // —— SCORE ——
   ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.font=`${bodyS*0.65}px "Special Elite",monospace`;
   ctx.fillText('SCORE: '+S.score+'  |  HITS: '+S.totalHits+'/'+totalPossible, w/2, ribY + 45);
 
-  // —— ASTON MARTIN WINGS (drawn) ——
-  const wingY = h - 70;
-  ctx.save(); ctx.globalAlpha=0.06;
+  // —— ASTON MARTIN WINGS ——
+  const wingY = h - 75;
+  ctx.save(); ctx.globalAlpha=0.05;
+  ctx.strokeStyle='#d4af37'; ctx.lineWidth=1.5;
   // Left wing
-  ctx.beginPath(); ctx.moveTo(w/2 - 5, wingY);
-  ctx.quadraticCurveTo(w/2 - 40, wingY - 12, w/2 - 55, wingY - 3);
-  ctx.quadraticCurveTo(w/2 - 35, wingY - 2, w/2 - 5, wingY + 2);
-  ctx.fillStyle='#d4af37'; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(w/2 - 4, wingY);
+  ctx.quadraticCurveTo(w/2 - 44, wingY - 14, w/2 - 60, wingY - 5);
+  ctx.quadraticCurveTo(w/2 - 40, wingY - 3, w/2 - 4, wingY + 2);
+  ctx.stroke();
   // Right wing
-  ctx.beginPath(); ctx.moveTo(w/2 + 5, wingY);
-  ctx.quadraticCurveTo(w/2 + 40, wingY - 12, w/2 + 55, wingY - 3);
-  ctx.quadraticCurveTo(w/2 + 35, wingY - 2, w/2 + 5, wingY + 2);
-  ctx.fill();
+  ctx.beginPath(); ctx.moveTo(w/2 + 4, wingY);
+  ctx.quadraticCurveTo(w/2 + 44, wingY - 14, w/2 + 60, wingY - 5);
+  ctx.quadraticCurveTo(w/2 + 40, wingY - 3, w/2 + 4, wingY + 2);
+  ctx.stroke();
   ctx.restore();
 
   // —— SIGNATURE ——
-  const sigY = h - 60;
+  const sigY = h - 65;
   ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(w*0.12,sigY); ctx.lineTo(w*0.38,sigY); ctx.stroke();
-  ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.font='8px "Special Elite",monospace'; ctx.textAlign='center';
-  ctx.fillText('M', (w*0.12+w*0.38)/2, sigY+10);
+  ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.font='10px "Special Elite",monospace'; ctx.textAlign='center';
+  ctx.fillText('M', (w*0.12+w*0.38)/2, sigY+12);
   ctx.strokeStyle='rgba(212,175,55,0.15)';
   ctx.beginPath(); ctx.moveTo(w*0.62,sigY); ctx.lineTo(w*0.88,sigY); ctx.stroke();
-  ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.fillText('Head of MI6', (w*0.62+w*0.88)/2, sigY+10);
+  ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.fillText('Head of MI6', (w*0.62+w*0.88)/2, sigY+12);
   ctx.textAlign='center';
 
   // —— FOOTER ——
   ctx.fillStyle='rgba(212,175,55,0.25)'; ctx.font='10px "Cinzel",serif';
-  ctx.fillText('MI6  ·  FATHER\'S DAY '+new Date().getFullYear(), w/2, h-30);
+  ctx.fillText('MI6  ·  FATHER\'S DAY '+new Date().getFullYear(), w/2, h-32);
   ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.font='8px "Special Elite",monospace';
   ctx.fillText('Awarded with love, gratitude, and admiration', w/2, h-14);
 
@@ -921,6 +996,9 @@ function renderCard() {
   if (S.gfUnlocked) {
     ctx.save(); ctx.globalAlpha=0.08; ctx.fillStyle='#cc0000'; ctx.font='8px "Special Elite",monospace'; ctx.fillText('No, Mr. Bond, I expect you to die!', w/2, h-5); ctx.restore();
   }
+
+  window.cardImg = canvas.toDataURL('image/png');
+}
 
   window.cardImg = canvas.toDataURL('image/png');
 }
