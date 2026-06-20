@@ -249,7 +249,7 @@ html,body{width:100%;height:100%;background:#000;color:#fff;font-family:'Cinzel'
     <div class="comm-section" id="cs5"><div class="comm-rank" id="commRank"></div></div>
     <div class="comm-section" id="cs6"><div class="comm-card-hidden" id="cardWrap"><canvas id="cardCanvas"></canvas></div></div>
     <div class="comm-section" id="cs7"><div class="comm-actions"><button onclick="window.saveCard()">DOWNLOAD COMMENDATION</button><button onclick="window.replayGame()" class="sec">PLAY AGAIN</button></div></div>
-    <div class="comm-section" id="cs8"><div class="comm-foot">Share a screenshot of this screen — your family will love it</div></div>
+    <div class="comm-section" id="cs8"><div class="comm-foot">Share a screenshot of this screen — your family will love it · Made by Shahid Singh for Dad</div></div>
   </div>
 </div>
 
@@ -726,12 +726,12 @@ function renderCard() {
   const canvas = document.getElementById('cardCanvas');
   const dpr = window.devicePixelRatio || 2;
   const w = 800;
-  const h = 1100;
+  const h = 1300;
 
   canvas.width = w * dpr;
   canvas.height = h * dpr;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
+  canvas.style.width = '100%';
+  canvas.style.height = 'auto';
 
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
@@ -835,8 +835,14 @@ function renderCard() {
   by += 55;
   ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font=`${bodyS*0.85}px "Special Elite",monospace`;
   const noteLines = [
-    '— and from all of us: happy Father\'s Day, Dad.',
-    'We love you more than all the gold at Fort Knox.',
+    'Thank you for all those nights on the couch watching Bond',
+    'movies together — for every shaken martini joke, every',
+    'ejector seat laugh, and every "that\'s not how a silencer',
+    'works, Dad." You were always there, just like 007 always',
+    'was. Through every mission, every scrape, every victory.',
+    '',
+    'You will always be my 007.',
+    '— Shahid',
   ];
   noteLines.forEach(l => { ctx.fillText(l,w/2,by); by += bodyS*1.6; });
 
@@ -889,7 +895,7 @@ function renderCard() {
   ctx.fillText('SCORE: '+S.score+'  |  HITS: '+S.totalHits+'/'+totalPossible, w/2, ribY + 45);
 
   // —— ASTON MARTIN WINGS ——
-  const wingY = h - 75;
+  const wingY = h - 90;
   ctx.save(); ctx.globalAlpha=0.05;
   ctx.strokeStyle='#d4af37'; ctx.lineWidth=1.5;
   // Left wing
@@ -905,7 +911,7 @@ function renderCard() {
   ctx.restore();
 
   // —— SIGNATURE ——
-  const sigY = h - 65;
+  const sigY = h - 80;
   ctx.strokeStyle='rgba(212,175,55,0.15)'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(w*0.12,sigY); ctx.lineTo(w*0.38,sigY); ctx.stroke();
   ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.font='10px "Special Elite",monospace'; ctx.textAlign='center';
@@ -917,13 +923,15 @@ function renderCard() {
 
   // —— FOOTER ——
   ctx.fillStyle='rgba(212,175,55,0.25)'; ctx.font='10px "Cinzel",serif';
-  ctx.fillText('MI6  ·  FATHER\'S DAY '+new Date().getFullYear(), w/2, h-32);
+  ctx.fillText('MI6  ·  FATHER\'S DAY '+new Date().getFullYear(), w/2, h-45);
   ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.font='8px "Special Elite",monospace';
-  ctx.fillText('Awarded with love, gratitude, and admiration', w/2, h-14);
+  ctx.fillText('Awarded with love, gratitude, and admiration', w/2, h-28);
+  ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.font='6px "Special Elite",monospace';
+  ctx.fillText('Made by Shahid Singh for Dad', w/2, h-10);
 
   // —— GOLDFINGER ——
   if (S.gfUnlocked) {
-    ctx.save(); ctx.globalAlpha=0.08; ctx.fillStyle='#cc0000'; ctx.font='8px "Special Elite",monospace'; ctx.fillText('No, Mr. Bond, I expect you to die!', w/2, h-5); ctx.restore();
+    ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.font='7px "Special Elite",monospace'; ctx.fillText('"No, Mr. Bond, I expect you to die!"  — Goldfinger', w/2, h-20);
   }
 
   window.cardImg = canvas.toDataURL('image/png');
